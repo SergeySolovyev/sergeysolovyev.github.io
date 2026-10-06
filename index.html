@@ -1,0 +1,1150 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Деньги ИИ и наши компании</title>
+<style>
+:root{color-scheme:light;--bg:#f6f5f2;--surface:#fcfcfb;--surface-2:#f0efec;--ink:#0b0b0b;--ink-2:#52514e;--ink-3:#7a7974;
+--rule:#e3e2dd;--s1:#2a78d6;--s2:#eb6834;--s3:#1baf7a;--s4:#eda100;--s5:#e87ba4;--s6:#008300;--s7:#4a3aa7;--s8:#e34948;--promise:#86b6ef;--link:#1c5cab}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#121211;--surface:#1a1a19;--surface-2:#232321;
+--ink:#fff;--ink-2:#c3c2b7;--ink-3:#8f8e86;--rule:#2f2f2c;--s1:#3987e5;--s2:#d95926;--s3:#199e70;--s4:#c98500;--s5:#d55181;--s6:#008300;--s7:#9085e9;--s8:#e66767;--promise:#184f95;--link:#86b6ef}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#121211;--surface:#1a1a19;--surface-2:#232321;--ink:#fff;--ink-2:#c3c2b7;--ink-3:#8f8e86;
+--rule:#2f2f2c;--s1:#3987e5;--s2:#d95926;--s3:#199e70;--s4:#c98500;--s5:#d55181;--s6:#008300;--s7:#9085e9;--s8:#e66767;--promise:#184f95;--link:#86b6ef}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+.wrap{max-width:1180px;margin:0 auto;padding:28px 16px 64px}
+h1{font-size:30px;line-height:1.2;margin:0 0 8px}
+h2{font-size:21px;margin:44px 0 6px}
+.lead{color:var(--ink-2);max-width:860px;margin:0}
+.note{color:var(--ink-3);font-size:13px;margin:6px 0 0}
+a{color:var(--link)}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:24px 0 0}
+.tile{background:var(--surface);border:1px solid var(--rule);border-radius:10px;padding:14px 16px}
+.tile b{display:block;font-size:30px;line-height:1.1;font-variant-numeric:tabular-nums}
+.tile span{color:var(--ink-2);font-size:13.5px}
+.flow{position:relative;display:grid;grid-template-columns:1fr 1fr 1.3fr;gap:14px 64px;margin-top:16px}
+.col{display:flex;flex-direction:column;gap:12px;position:relative;z-index:1}
+.colh{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-3);margin:0 0 -4px}
+.node{background:var(--surface);border:1px solid var(--rule);border-left:5px solid var(--c,var(--ink-3));border-radius:8px;padding:9px 12px}
+.node h4{margin:0;font-size:14.5px}
+.node p{margin:3px 0 0;font-size:12.5px;line-height:1.4;color:var(--ink-2)}
+.node .to{display:none;font-size:12px;color:var(--ink-3);margin-top:4px}
+.tks{display:flex;flex-wrap:wrap;gap:4px;margin-top:7px}
+.tk{font-size:12px;line-height:1;padding:4px 6px;border-radius:5px;background:var(--surface-2);color:var(--ink);text-decoration:none;white-space:nowrap;font-variant-numeric:tabular-nums}
+.tk i{font-style:normal;color:var(--ink-2)}
+a.tk:hover{outline:1px solid var(--ink-3)}
+.tk.off{color:var(--ink-3)}
+svg.links{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;overflow:visible}
+.ideas{margin:10px 0 0;padding:0;list-style:none;display:grid;gap:10px}
+.ideas li{background:var(--surface);border:1px solid var(--rule);border-radius:10px;padding:12px 16px}
+.ideas li b{display:block;font-size:15.5px;margin-bottom:2px}
+.ideas li span{color:var(--ink-2);font-size:14px}
+.bars{margin-top:14px;display:grid;gap:8px}
+.bar{display:grid;grid-template-columns:minmax(150px,330px) 1fr;gap:12px;align-items:center;font-size:13.5px}
+.bar .lbl{color:var(--ink-2)}
+.track{position:relative;height:22px}
+.fill{position:absolute;left:0;top:3px;height:16px;border-radius:0 4px 4px 0;background:var(--s1)}
+.fill.pr{background:var(--promise)}
+.val{position:absolute;top:1px;font-weight:600;font-size:13px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.legend{display:flex;flex-wrap:wrap;gap:16px;font-size:13px;color:var(--ink-2);margin-top:10px}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+#gapchart{margin-top:12px;background:var(--surface);border:1px solid var(--rule);border-radius:10px;padding:8px 0}
+#gapchart svg{display:block;width:100%}
+.phases{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:14px}
+.ph{background:var(--surface);border:1px solid var(--rule);border-radius:10px;padding:12px 13px;font-size:13px;color:var(--ink-2)}
+.ph b{display:block;color:var(--ink);font-size:14.5px}
+.ph em{display:block;font-style:normal;color:var(--ink-3);font-size:12px;margin-bottom:4px}
+.ph .us{margin-top:8px;color:var(--ink)}
+.ph.next{border-style:dashed}
+table{border-collapse:collapse;width:100%;font-size:13px;font-variant-numeric:tabular-nums}
+th,td{padding:5px 8px;border-bottom:1px solid var(--rule);text-align:right;white-space:nowrap}
+th:nth-child(-n+3),td:nth-child(-n+3){text-align:left}
+td:nth-child(3){white-space:normal;color:var(--ink-2)}
+details{margin-top:12px}
+summary{cursor:pointer;color:var(--link)}
+.tablewrap{overflow-x:auto;margin-top:10px;background:var(--surface);border:1px solid var(--rule);border-radius:10px}
+#tip{position:fixed;z-index:9;pointer-events:none;background:var(--surface);color:var(--ink);border:1px solid var(--rule);border-radius:8px;
+padding:8px 10px;font-size:12.5px;box-shadow:0 6px 20px rgba(0,0,0,.18);max-width:300px}
+#tip .v{font-weight:650}
+#tip .k{display:inline-block;width:14px;height:0;border-top:2px solid;margin-right:6px;vertical-align:3px}
+.cyb td{white-space:normal;vertical-align:top;text-align:left}.cyb th{text-align:left}.cyb td:nth-child(3){color:var(--ink)}.cyb .k2{color:var(--ink-3);font-size:12px}
+a.tkl{color:var(--link);text-decoration:none;border-bottom:1px dotted currentColor}a.tkl:hover{border-bottom-style:solid}
+svg a .tks{fill:var(--link)}svg a:hover .tks{text-decoration:underline}svg a{cursor:pointer}
+.foot{margin-top:40px;color:var(--ink-3);font-size:12.5px}
+@media (max-width:900px){.flow{grid-template-columns:1fr;gap:12px}svg.links{display:none}.node .to{display:block}.phases{grid-template-columns:1fr 1fr}}
+@media (max-width:560px){.phases{grid-template-columns:1fr}h1{font-size:24px}.bar{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Деньги ИИ → «железо» и энергия → наши компании</h1>
+<p class="lead">Отчёт «Capital Flow Atlas» (02.10.2026) показывает, кто и куда вкладывает деньги эпохи ИИ. Здесь он сведён с нашими выводами по гуманоидам (Morgan Stanley «Humanoid 100»), по энергетике ЦОД и с оценками DCF наших моделей Industry и Measured (цены на 02.10.2026).</p>
+<div class="tiles">
+ <div class="tile"><b>$407 млрд</b><span>венчурных денег в ИИ за 1-е полугодие 2026 (PitchBook): больше, чем за весь 2025 год</span></div>
+ <div class="tile"><b>≈ 53%</b><span>этой суммы дали раунды двух компаний: OpenAI ($122 млрд) и Anthropic ($30 и 65 млрд)</span></div>
+ <div class="tile"><b>$109 млрд</b><span>инфраструктура и хостинг ИИ в 2025 году, 42% всех ИИ-инвестиций (OECD); в 2024-м было $47 млрд</span></div>
+ <div class="tile"><b>&gt; $500 млрд</b><span>финансирования ЦОД Nvidia договорилась помочь привлечь (меморандумы): спрос расписан на годы вперёд</span></div>
+</div>
+
+<h2>Прямые инвестиции в ИИ: за полгода больше, чем за весь прошлый год</h2>
+<p class="note">После спада 2022–2023 годов венчур в ИИ за два года вырос вдвое. В 2026 году рост ускорился: только за I квартал вложили столько же, сколько за весь 2025 год, а за полугодие — в 1,5 раза больше. Доля ИИ во всём венчуре: 30% в 2022 году, 61% в 2025-м, 86% в США за 1-е полугодие 2026-го.</p>
+<div class="two"><div class="figbox" id="fig-vc-years"></div><div class="figbox" id="fig-vc-h1"></div></div>
+<p class="note" style="margin-top:14px"><b>Сумма 2025 года как в 2021-м, но деньги другие.</b> 2021 год — пик всего венчура на дешёвых деньгах (больше $800 млрд в мире); «ИИ-компании» тогда — в широком смысле: беспилотники, медицина, софт с элементами ИИ. Генеративный ИИ почти не финансировали: $2,8 млрд даже в 2022 году. После роста ставок венчур в ИИ упал до $123,6 млрд в 2023 году. В 2025-м та же сумма почти наполовину ушла в инфраструктуру и разработчиков моделей.</p>
+<div class="figbox" id="fig-vc-mix" style="margin-top:8px"></div>
+<p class="note">Источники: OECD «Venture capital investments in artificial intelligence through 2025» (февраль 2026, данные Preqin; 2022 и 2024 — по графику отчёта); PitchBook: 2025 год — $264 млрд, I квартал 2026 — $255,5 млрд, 1-е полугодие 2026 — $407 млрд, из них OpenAI и Anthropic ≈$217 млрд; PitchBook-NVCA — доля ИИ в венчуре США. Поставщики данных считают по-разному, поэтому ряды OECD и PitchBook не смешаны.</p>
+
+<h2>Куда текут деньги</h2>
+<p class="note">Схема по отчёту. Толщина линий условная, не в масштабе. У тикера — на чём компания зарабатывает в цепочке ИИ; оценка DCF — в подсказке при наведении, на графике «Что об этом думают наши модели» и в таблице внизу. Клик по тикеру открывает карточку на сайте; серые тикеры — без карточки на сайте.</p>
+<div class="flow" id="flow">
+ <svg class="links" id="links" aria-hidden="true"></svg>
+ <div class="col" id="c1"><p class="colh">Кто даёт деньги</p></div>
+ <div class="col" id="c2"><p class="colh">Кто получает (частные компании)</p></div>
+ <div class="col" id="c3"><p class="colh">На что тратят → наши публичные компании</p></div>
+</div>
+
+<h2>Что из этого следует</h2>
+<ol class="ideas" id="ideas"></ol>
+
+<h2>Спрос законтрактован на годы вперёд</h2>
+<p class="note">Деньги сейчас дорогие. На аренду на 20 лет, гарантию на $105 млрд и пятилетние контракты идут, только когда видят спрос. Это пайплайн: выручка цепочки расписана на годы. Условие одно — чтобы покупатели (OpenAI, Anthropic, ИИ-облака) могли платить; это развилка с IPO ниже.</p>
+<div class="colh" style="margin-top:14px">Nvidia, отчётность на 26.07.2026 (10-Q), $ млрд</div>
+<div class="bars" id="nvbars"></div>
+<div class="legend"><span><i style="background:var(--s1)"></i>уже вложено</span><span><i style="background:var(--promise)"></i>законтрактовано или гарантировано на годы вперёд</span></div>
+<div class="stats" id="pipeline" style="margin-top:16px">
+ <div class="stat"><b>20 лет</b><span>аренда OpenAI в Огайо (8 ГВт); платежи до $105 млрд гарантирует Nvidia</span></div>
+ <div class="stat"><b>$104 млрд</b><span>портфель заказов CoreWeave — контракты с Microsoft, OpenAI и другими</span></div>
+ <div class="stat"><b>5 лет</b><span>26 контрактов Micron без права отмены, с предоплатами; память HBM и DRAM на 2027 год распродана</span></div>
+ <div class="stat"><b>110 ГВт</b><span>заказы и брони газовых турбин у GE Vernova — очередь на годы</span></div>
+</div>
+<p class="note">Источники: отчётность Nvidia (10-Q), OpenAI и Nvidia о кампусе PORTS-Pike, отчётность CoreWeave и Micron (наш разбор бумаг фонда Ашенбреннера), GE Vernova (отчёт об энергетике). Суммы разной природы, складывать их нельзя.</p>
+
+
+<h2>Наши компании внутри OpenAI и Anthropic</h2>
+<p class="note">Из наших 237 компаний доли в лабораториях есть у четырёх. Суммы взяты из их отчётов в SEC. Процент доли компании не раскрывают: он посчитан по оценке последнего раунда или взят из прессы, это оценка. Oracle и Meta долей не имеют: Oracle — партнёр OpenAI по Stargate, Meta строит свои модели.</p>
+<div class="tablewrap"><table class="cyb stakes">
+<thead><tr><th>Компания</th><th>В OpenAI</th><th>В Anthropic</th><th>Что это даёт компании</th></tr></thead>
+<tbody>
+<tr><td><a class="tk" href="https://sergeysolovyev.github.io/datum-203/#AMZN" target="_blank" rel="noopener">AMZN</a><br><span class="k2">Amazon</span></td>
+<td><b>$50 млрд</b>, ≈6%<br><span class="k2">привилегированные акции серии C, внесено полностью к 3 кв. 2026; доля — по оценке раунда $852 млрд</span></td>
+<td><b>$18 млрд</b>, по оценкам 15–20%<br><span class="k2">$8 млрд нотами в 2023–2025, по $5 млрд в раундах G и H (2 кв. 2026); ещё до $15 млрд по кредитной линии. В балансе Amazon вложения в обе лаборатории — $122 млрд акциями плюс ноты</span></td>
+<td><span class="k2">Переоценка Anthropic дала +$62,8 млрд прибыли до налогов за первое полугодие 2026 года. Обе лаборатории покупают у AWS: OpenAI — ещё на $100 млрд за 8 лет, Anthropic — больше чем на $100 млрд за 10 лет</span></td></tr>
+<tr><td><a class="tk" href="https://sergeysolovyev.github.io/datum-203/#MSFT" target="_blank" rel="noopener">MSFT</a><br><span class="k2">Microsoft</span></td>
+<td><b>≈27%</b> на октябрь 2025 года<br><span class="k2">после реорганизации OpenAI доля стоила около $135 млрд; раунды 2026 года её размыли, новый процент не раскрыт</span></td>
+<td><b>до $5 млрд</b><br><span class="k2">обязательство ноября 2025 года; Anthropic в ответ покупает мощности Azure на $30 млрд</span></td>
+<td><span class="k2">За финансовый 2026 год OpenAI принесла Microsoft $24,1 млрд выручки и +$6,5 млрд прибыли (в основном от размытия доли)</span></td></tr>
+<tr><td><a class="tk" href="https://sergeysolovyev.github.io/datum-203/#GOOG" target="_blank" rel="noopener">GOOG</a><br><span class="k2">Alphabet</span></td>
+<td>—</td>
+<td><b>≈14%</b>, потолок 15%<br><span class="k2">по судебным документам 2025 года; в апреле 2026 обязалась вложить ещё до $40 млрд: $10 млрд сразу (по оценке $350 млрд) и $30 млрд при выполнении условий</span></td>
+<td><span class="k2">Anthropic обучает модели на чипах TPU Google: 5 ГВт мощности на пять лет</span></td></tr>
+<tr><td><a class="tk" href="https://sergeysolovyev.github.io/datum-203/#NVDA" target="_blank" rel="noopener">NVDA</a><br><span class="k2">Nvidia</span></td>
+<td><b>$30 млрд</b>, ≈3,5%<br><span class="k2">в раунде марта 2026 года</span></td>
+<td><b>до $10 млрд</b>, ≈3%<br><span class="k2">соглашение ноября 2025 года</span></td>
+<td><span class="k2">Деньги возвращаются заказами на ускорители; Nvidia ещё и гарантирует до $105 млрд по аренде кампуса OpenAI в Огайо</span></td></tr>
+</tbody></table></div>
+<p class="note">Источники: <a href="sources/stakes_sources.html">выдержки из отчётов компаний в SEC и что взято из прессы</a>, там же ссылки на оригиналы. Точные доли станут известны из проспекта Anthropic к IPO.</p>
+
+<h2>Что об этом думают наши модели</h2>
+<p class="note">Разрыв: справедливая стоимость DCF к цене. Слева от нуля рынок дороже нашей оценки. Бледная метка и знак † означают, что оценке больше года. Справа — лучший из двух классов совпадения. Наведите на строку, чтобы увидеть числа.</p>
+<div class="legend"><span><i style="background:var(--s1);border-radius:50%"></i>Measured: только своя история компании</span><span><i style="background:var(--s2);transform:rotate(45deg) scale(.8)"></i>Industry: с данными отрасли</span></div>
+<div id="gapchart"></div>
+
+<h2>Четыре фазы и следующая</h2>
+<p class="note">Фазы и цифры взяты из отчёта. Строка «наши» — наша интерпретация, какие бумаги из списка получали поток.</p>
+<div class="phases" id="phases"></div>
+
+<details><summary>Таблица: все компании и оценки</summary><div class="tablewrap"><table id="tbl"></table></div></details>
+
+<style>
+.part{margin-top:64px;padding-top:28px;border-top:2px solid var(--ink)}
+.kicker{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin:0 0 6px}
+.exec{background:var(--surface);border:1px solid var(--rule);border-radius:12px;padding:18px 22px;margin-top:18px}
+.exec h3{margin:0 0 10px;font-size:16px}
+.exec ol{margin:0;padding-left:22px;display:grid;gap:8px}
+.exec li{font-size:14.5px}
+.exec li b{font-weight:650}
+.ex{margin-top:36px}
+.ex h3{font-size:18.5px;line-height:1.3;margin:0 0 4px}
+.ex .num{display:inline-block;font-size:12px;color:var(--ink-3);letter-spacing:.06em;text-transform:uppercase;margin-bottom:2px}
+.src{color:var(--ink-3);font-size:12px;margin:8px 0 0}
+.panel{background:var(--surface);border:1px solid var(--rule);border-radius:10px;padding:14px 16px;margin-top:12px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.card{background:var(--surface);border:1px solid var(--rule);border-radius:10px;padding:13px 15px;font-size:14px;color:var(--ink-2)}
+.card b{color:var(--ink)}
+.card h4{margin:0 0 6px;font-size:14.5px;color:var(--ink)}
+.card ul{margin:0;padding-left:18px;display:grid;gap:5px}
+.tag{display:inline-block;font-size:11.5px;padding:2px 7px;border-radius:999px;border:1px solid var(--rule);color:var(--ink-2);margin-right:6px}
+.tag.ok{border-color:var(--s3);color:var(--ink)}
+.tag.fix{border-color:var(--s2);color:var(--ink)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-top:12px}
+.stat{background:var(--surface);border:1px solid var(--rule);border-radius:10px;padding:11px 13px}
+.stat b{display:block;font-size:22px;line-height:1.15;font-variant-numeric:tabular-nums}
+.stat span{font-size:12.5px;color:var(--ink-2)}
+.reasons{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:10px;margin-top:12px}
+.reason{background:var(--surface);border:1px solid var(--rule);border-radius:10px;padding:12px 14px;font-size:13.5px;color:var(--ink-2)}
+.reason b{display:block;color:var(--ink);font-size:14.5px;margin-bottom:3px}
+.reason i{font-style:normal;color:var(--ink-3);font-size:12px}
+svg.fig{display:block;width:100%}
+.figbox{background:var(--surface);border:1px solid var(--rule);border-radius:10px;padding:10px 12px;margin-top:12px}
+.port td:nth-child(2){white-space:normal}
+.port td{vertical-align:top}
+.port th:nth-child(n+4),.port td:nth-child(n+4){text-align:left}
+.port td:nth-child(3),.port th:nth-child(3){text-align:right}
+#signals{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+@media (max-width:760px){.two{grid-template-columns:1fr}}
+</style>
+
+<section class="part" id="barbell">
+<p class="kicker">Часть 2 · структура ставки на ИИ</p>
+<h2 style="margin-top:0">Модели и инфраструктура: две опоры одной ставки</h2>
+<p class="lead">Вложения в ИИ держатся на двух опорах: разработчики моделей (OpenAI, Anthropic) и инфраструктура — энергия, чипы, память. Одни и те же фонды финансируют обе, а разработчики моделей сами заказывают проекты, которые строит инфраструктура (Огайо). Ниже — что подтверждается цифрами и что это значит для наших бумаг.</p>
+
+<div class="exec">
+<h3>Главное за 30 секунд</h3>
+<ol>
+<li><b>Две опоры, но не диверсификация.</b> Обе зависят от одного потока денег в разработчиков моделей: если он ослабнет, просядут обе. Это одна ставка с плечом, а не две разных.</li>
+<li><b>Разработчиков моделей на бирже не купить, но есть публичный доступ.</b> OpenAI и Anthropic до IPO. Через публичные компании доступ к ним дают Microsoft, Amazon, Alphabet, Nvidia, Oracle.</li>
+<li><b>Один проект — масштаб отрасли.</b> Кампус OpenAI в Огайо — 8 ГВт: при полной загрузке это около 40% всего электричества ЦОД США 2023 года. Полтриллиона долларов — около $1 500 на каждого жителя США, или ≈1,7% ВВП страны.</li>
+<li><b>Инфраструктуры нет на кривой Gartner, потому что она — сумма всех кривых.</b> Она получает деньги, пока поднимается хоть одна волна: генеративный ИИ → агенты → физический ИИ. Риск — провал между волнами.</li>
+<li><b>Энергия — самое узкое место США и самое сильное место Китая.</b> Прирост ЦОД до 2030 года съест около 5% всей выработки США и меньше 2% — Китая. На одного жителя Китай вводит вдвое больше новой мощности. У США — чипы, у Китая — электричество.</li>
+<li><b>Для Китая роботы — не выбор, а необходимость.</b> По прогнозу ООН к 2050 году людей рабочего возраста станет на 241 млн меньше (−24%), а пожилых на 100 работающих — 52 против 21 сейчас. Китай уже ставит 54% всех промышленных роботов мира, и 57% из них — своего производства.</li>
+</ol>
+</div>
+
+<div class="ex">
+<span class="num">Рис. 1</span>
+<h3>Одни и те же фонды финансируют и разработчиков моделей, и инфраструктуру</h3>
+<div class="figbox" id="fig-barbell"></div>
+<p class="src">Источники: Capital Flow Atlas (02.10.2026); OpenAI и Nvidia о кампусе PORTS-Pike (2026). Клик по тикеру открывает карточку компании.</p>
+</div>
+
+<div class="two">
+<div class="card"><h4><span class="tag ok">подтверждается</span>Деньги одни и те же</h4><ul>
+<li><b>SoftBank:</b> ≈13% OpenAI и одновременно DigitalBridge ($4 млрд) и SB Energy, которая строит кампус в Огайо.</li>
+<li><b>Nvidia:</b> $30 млрд в OpenAI и одновременно поставщик чипов, $1,5 млрд в SB Energy и гарантия до $105 млрд по аренде того же кампуса.</li>
+<li><b>MGX, GIC, QIA, Temasek:</b> в раундах Anthropic и одновременно в ЦОД (Aligned ≈$40 млрд, AIP).</li>
+</ul></div>
+<div class="card"><h4><span class="tag fix">поправить</span>Две опоры не страхуют друг друга</h4><ul>
+<li>Стратегия «штанги» в портфеле — это надёжное плюс рискованное, которые ведут себя по-разному. Здесь обе опоры зависят от одного: продолжат ли разработчики моделей привлекать деньги.</li>
+<li>Лаборатории тратят деньги инфраструктуры: заказы Огайо оплачиваются раундами OpenAI, а гарантии Nvidia — её собственной выручкой от тех же раундов.</li>
+<li>Вывод: держать обе опоры — значит удвоить ставку, а не разложить её.</li>
+</ul></div>
+</div>
+
+<div class="ex">
+<span class="num">Рис. 2</span>
+<h3>Разработчики моделей за год подорожали в 3–5 раз: рынок лабораторий растёт быстрее, чем их выручка может догнать</h3>
+<div class="figbox" id="fig-vals"></div>
+<p class="src">Оценки после раундов по объявлениям компаний (Capital Flow Atlas): OpenAI — октябрь 2024, март 2025, 2026; Anthropic — сентябрь 2025, февраль 2026, май 2026.</p>
+</div>
+
+
+</section>
+<section>
+<div class="ex">
+<span class="num">Рис. 3</span>
+<h3>Огайо: один кампус размером с отрасль</h3>
+<p class="note">PORTS-Pike (округ Пайк, Огайо): OpenAI берёт около 8 ГВт ИТ-нагрузки в аренду на 20 лет; SB Energy (SoftBank) строит кампус и не меньше 10 ГВт новой генерации; Nvidia вкладывает $1,5 млрд в SB Energy и гарантирует до $105 млрд арендных платежей; стройка до 2032 года, 35 000 рабочих мест на стройке.</p>
+<div class="two">
+<div class="figbox" id="fig-ohio-power"></div>
+<div class="figbox" id="fig-ohio-money"></div>
+</div>
+<p class="src">Источники: OpenAI «OpenAI joins PORTS-Pike project»; HPCwire и Yahoo Finance о вложении Nvidia (август 2026); LBNL/DOE — 176 ТВт·ч ЦОД США в 2023 году; EIA — 53 ГВт новой мощности США в 2025 году; OECD/Preqin, PitchBook. Полная стоимость кампуса официально не раскрыта: $0,4–0,5 трлн — наша оценка по ориентиру Nvidia $50–60 млрд за 1 ГВт вместе с чипами.</p>
+</div>
+
+<div class="ex">
+<span class="num">Рис. 4</span>
+<h3>Что такое полтриллиона долларов</h3>
+<div class="stats" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr));max-width:760px">
+<div class="stat"><b>≈ $1 500</b><span>на каждого жителя США (население около 340 млн человек)</span></div>
+<div class="stat"><b>≈ 1,7% ВВП США</b><span>за один кампус; ВВП США за 2025 год — около $30 трлн</span></div>
+</div>
+<p class="src">Стоимость кампуса $0,4–0,5 трлн — наша оценка (см. Рис. 3). ВВП — Бюро экономического анализа США (BEA), население — Бюро переписи США.</p>
+</div>
+
+<div class="ex">
+<span class="num">Рис. 5</span>
+<h3>Где инфраструктура на кривой Gartner: под всеми кривыми сразу</h3>
+<p class="note">Gartner меряет ожидания от технологий. Инфраструктура — не технология, а то, на что тратят деньги все технологии. Пока поднимается хотя бы одна волна, спрос на чипы, ЦОД и энергию растёт. Опасный момент — когда одна волна уже в провале, а следующая ещё не поднялась.</p>
+<div class="figbox" id="fig-relay"></div>
+<p class="src">Схема-иллюстрация, не прогноз. Фазы по Gartner: генеративный ИИ — провал в 2025 году; ИИ-агенты — пик в 2025–2026 годах, больше 40% агентных проектов закроют к концу 2027-го; физический ИИ и гуманоиды — запуск, массово через 10+ лет. Gartner: расходы на ИИ в 2026 году — около $2,6–2,7 трлн (+47–50%), электричество ЦОД мира 447 → 565 → больше 1 200 ТВт·ч (2025, 2026, 2030).</p>
+</div>
+
+<div class="ex">
+<span class="num">Рис. 6</span>
+<h3>Ашенбреннер в 2024 году угадал масштаб кластеров; Огайо — его «10 ГВт», только на 4 года позже</h3>
+<div class="figbox" id="fig-leopold"></div>
+<p class="src">Исследование: Леопольд Ашенбреннер, «Situational Awareness: The Decade Ahead», июнь 2024 — <a href="https://situational-awareness.ai/wp-content/uploads/2024/06/situationalawareness.pdf" target="_blank" rel="noopener">PDF на сайте автора</a>.</p>
+<p class="src">Прогноз — «Situational Awareness» (июнь 2024): крупнейший кластер ~1 ГВт в 2026 году, ~10 ГВт в 2028-м, ~100 ГВт (больше 20% электричества США) в 2030-м. Факт — Epoch AI: Colossus 2 (xAI) 946 МВт ИТ на 01.10.2026; кампус в Огайо — 8 ГВт к 2032 году. Шкала логарифмическая.</p>
+</div>
+
+<div class="ex">
+<span class="num">Рис. 7</span>
+<h3>Энергия: для ИИ важна не выработка, а свободная мощность — и США она нужна втрое острее</h3>
+<p class="note">Китай вырабатывает в 2,2 раза больше электричества в основном потому, что там в 4 раза больше людей и тяжёлая промышленность. Для ИИ важно другое: какую долю системы съест прирост ЦОД и сколько новой мощности страна успевает подключать.</p>
+<div class="figbox" id="fig-energy"></div>
+<div class="stats">
+<div class="stat"><b>6,8 ГВт</b><span>не хватило аукциону мощности PJM 2028/29 до нормы надёжности</span></div>
+<div class="stat"><b>1–4 года</b><span>ждать трансформатор; в 2019 году было 3–6 месяцев</span></div>
+<div class="stat"><b>13%</b><span>проектов из очереди подключения исторически доходят до запуска; в очереди 1 312 ГВт генерации</span></div>
+<div class="stat"><b>110 ГВт</b><span>заказов и бронирований газовых турбин у GE Vernova</span></div>
+</div>
+<p class="src">IEA «Energy and AI» (апрель 2025): спрос ЦОД к 2030 году против 2024-го — США +240 ТВт·ч (+130%), Китай +175 ТВт·ч (+170%). Выработка 2025 года: США 4,43 ПВт·ч (EIA), Китай 9,72 ПВт·ч (НБС). Население: около 340 млн и 1,405 млрд. Средняя нагрузка = ТВт·ч ÷ 8 760 часов. Новая мощность — номинальная; солнце и ветер выдают лишь часть номинала, поэтому реальный запас у США ещё меньше. Узкие места США — отчёт об энергетике (deep research, 2026): PJM, LBNL, DOE, GE Vernova. Статистика двух стран считается по-разному, сравнение — по порядку величин.</p>
+</div>
+
+<div class="ex">
+<span class="num">Рис. 8</span>
+<h3>Китаю роботы нужны: к 2050 году людей рабочего возраста станет на 241 млн меньше</h3>
+<p class="note">Прогноз ООН, средний вариант: население 15–64 лет, 2025 год = 100. Китай теряет четверть работающих к 2050 году и почти половину к 2075-му. Быстрее сокращается только Корея; США и Индия растут.</p>
+<div class="figbox" id="fig-workforce"></div>
+<div class="two">
+<div class="figbox" id="fig-dependency"></div>
+<div class="figbox" id="fig-robots"></div>
+</div>
+<p class="src">ООН, World Population Prospects 2024, средний вариант (данные через Our World in Data). Рождения в Китае: 7,92 млн в 2025 году против 17,86 млн в 2016-м (НБС Китая, январь 2026). Роботы — IFR World Robotics 2025: в 2024 году в мире установлено 542 тыс. промышленных роботов, в Китае 295 тыс.; в работе в Китае 2,03 млн, в 4,5 раза больше, чем в Японии; китайские производители — 57% своего рынка против примерно 28% десять лет назад.</p>
+</div>
+
+<div class="ex">
+<span class="num">Рис. 9</span>
+<h3>Почему роботы неизбежны: восемь причин, и демография только первая</h3>
+<div class="reasons" id="reasons"></div>
+</div>
+
+<div class="ex">
+<span class="num">Рис. 10</span>
+<h3>Что это значит для наших бумаг: карта по опорам</h3>
+<div class="tablewrap"><table class="port" id="port"></table></div>
+<p class="src">Клик по тикеру открывает карточку компании; у всех компаний цепочки есть карточки на сайте (с 03.10.2026).</p>
+</div>
+
+<div class="ex">
+<span class="num">Рис. 11</span>
+<h3>Пять сигналов, что поток капитала слабеет</h3>
+<div class="reasons" id="signals"></div>
+</div>
+</section>
+
+<p class="foot">Источники: Capital Flow Atlas (deep research, 02.10.2026: OECD/Preqin, PitchBook, отчётность Nvidia 10-Q и 13F, сообщения компаний); Morgan Stanley «The Humanoid 100»; наш разбор «ИИ и энергия: общая картина»; модели DCF Industry и Measured. Аналитический материал, не инвестиционная рекомендация.</p>
+</div>
+<div id="tip" hidden></div>
+<script type="application/json" id="data">{"companies":{"NVDA":{"name":"NVIDIA","role":"ускорители ИИ","layer":"chips","price":233.95,"site":true,"nobase":false,"industry":{"fair":423.78,"gap":0.8114,"fit":"shape","refused":false,"stale":false},"measured":{"fair":223.56,"gap":-0.0444,"fit":"shape","refused":false,"stale":false}},"AVGO":{"name":"Broadcom","role":"заказные ИИ-чипы, сети","layer":"chips","price":355.14,"site":true,"nobase":false,"industry":{"fair":null,"gap":null,"fit":null,"refused":true,"stale":false},"measured":{"fair":218.26,"gap":-0.3854,"fit":"shape","refused":false,"stale":false}},"MU":{"name":"Micron","role":"память HBM и DRAM","layer":"chips","price":1074.89,"site":true,"nobase":false,"industry":{"fair":59.15,"gap":-0.945,"fit":"weak","refused":false,"stale":true},"measured":{"fair":513.12,"gap":-0.5226,"fit":"weak","refused":false,"stale":false}},"AMAT":{"name":"Applied Materials","role":"оборудование для чипов","layer":"chips","price":540.04,"site":true,"nobase":false,"industry":{"fair":121.31,"gap":-0.7754,"fit":"shape","refused":false,"stale":false},"measured":{"fair":136.87,"gap":-0.7466,"fit":"shape","refused":false,"stale":false}},"LRCX":{"name":"Lam Research","role":"оборудование для чипов","layer":"chips","price":347.49,"site":true,"nobase":false,"industry":{"fair":73.2,"gap":-0.7893,"fit":"weak","refused":false,"stale":false},"measured":{"fair":77.8,"gap":-0.7761,"fit":"shape","refused":false,"stale":false}},"KLAC":{"name":"KLA","role":"контроль производства чипов","layer":"chips","price":206.89,"site":true,"nobase":false,"industry":{"fair":49.01,"gap":-0.7631,"fit":"gold","refused":false,"stale":true},"measured":{"fair":61.38,"gap":-0.7033,"fit":"shape","refused":false,"stale":false}},"ACLS":{"name":"Axcelis","role":"ионная имплантация","layer":"chips","price":147.77,"site":true,"nobase":false,"industry":{"fair":69.16,"gap":-0.532,"fit":"shape","refused":false,"stale":false},"measured":{"fair":74.49,"gap":-0.4959,"fit":"shape","refused":false,"stale":false}},"PLAB":{"name":"Photronics","role":"фотошаблоны","layer":"chips","price":31.49,"site":true,"nobase":false,"industry":{"fair":38.73,"gap":0.2299,"fit":"gold","refused":false,"stale":false},"measured":{"fair":47.31,"gap":0.5024,"fit":"gold","refused":false,"stale":false}},"SNPS":{"name":"Synopsys","role":"проектирование чипов","layer":"chips","price":489.9,"site":true,"nobase":false,"industry":{"fair":181.99,"gap":-0.6285,"fit":"shape","refused":false,"stale":false},"measured":{"fair":153.67,"gap":-0.6863,"fit":"shape","refused":false,"stale":false}},"CDNS":{"name":"Cadence","role":"проектирование чипов","layer":"chips","price":351.35,"site":true,"nobase":false,"industry":{"fair":92.26,"gap":-0.7374,"fit":"shape","refused":false,"stale":false},"measured":{"fair":81.66,"gap":-0.7676,"fit":"shape","refused":false,"stale":false}},"ANET":{"name":"Arista Networks","role":"сети ЦОД","layer":"net","price":207.35,"site":true,"nobase":false,"industry":{"fair":137.92,"gap":-0.3348,"fit":"gold","refused":false,"stale":false},"measured":{"fair":100.7,"gap":-0.5143,"fit":"shape","refused":false,"stale":false}},"CSCO":{"name":"Cisco","role":"сети и безопасность","layer":"net","price":112.2,"site":true,"nobase":false,"industry":{"fair":37.2,"gap":-0.6684,"fit":"level","refused":false,"stale":true},"measured":{"fair":45.25,"gap":-0.5967,"fit":"level","refused":false,"stale":false}},"FN":{"name":"Fabrinet","role":"оптические модули","layer":"net","price":463.69,"site":true,"nobase":false,"industry":{"fair":321.73,"gap":-0.3062,"fit":"weak","refused":false,"stale":false},"measured":{"fair":166.03,"gap":-0.6419,"fit":"shape","refused":false,"stale":false}},"APH":{"name":"Amphenol","role":"разъёмы и кабели","layer":"net","price":86.96,"site":true,"nobase":false,"industry":{"fair":70.56,"gap":-0.1886,"fit":"gold","refused":false,"stale":false},"measured":{"fair":50.01,"gap":-0.4249,"fit":"shape","refused":false,"stale":false}},"TEL":{"name":"TE Connectivity","role":"разъёмы и датчики","layer":"net","price":220.36,"site":true,"nobase":false,"industry":{"fair":119.57,"gap":-0.4574,"fit":"weak","refused":false,"stale":false},"measured":{"fair":114.32,"gap":-0.4812,"fit":"weak","refused":false,"stale":false}},"ETN":{"name":"Eaton","role":"электрооборудование ЦОД","layer":"dc","price":436.11,"site":true,"nobase":false,"industry":{"fair":164.16,"gap":-0.6236,"fit":"shape","refused":false,"stale":false},"measured":{"fair":135.76,"gap":-0.6887,"fit":"shape","refused":false,"stale":false}},"EME":{"name":"EMCOR","role":"электромонтаж ЦОД","layer":"dc","price":786.61,"site":true,"nobase":false,"industry":{"fair":510.09,"gap":-0.3515,"fit":"gold","refused":false,"stale":false},"measured":{"fair":288.75,"gap":-0.6329,"fit":"shape","refused":false,"stale":false}},"PWR":{"name":"Quanta Services","role":"энергосети, подключение","layer":"dc","price":676.56,"site":true,"nobase":false,"industry":{"fair":237.51,"gap":-0.6489,"fit":"weak","refused":false,"stale":false},"measured":{"fair":75.57,"gap":-0.8883,"fit":"weak","refused":false,"stale":false}},"POWL":{"name":"Powell Industries","role":"распредустройства","layer":"dc","price":196.1,"site":true,"nobase":false,"industry":{"fair":121.57,"gap":-0.3801,"fit":"weak","refused":false,"stale":false},"measured":{"fair":96.78,"gap":-0.5065,"fit":"shape","refused":false,"stale":false}},"VRT":{"name":"Vertiv","role":"питание и охлаждение ЦОД","layer":"dc","price":252.18,"site":true,"nobase":false,"industry":{"fair":98.9,"gap":-0.6078,"fit":"n/a","refused":false,"stale":false},"measured":{"fair":76.05,"gap":-0.6984,"fit":"n/a","refused":false,"stale":false}},"HUBB":{"name":"Hubbell","role":"оборудование энергосетей","layer":"dc","price":475.52,"site":true,"nobase":false,"industry":{"fair":182.81,"gap":-0.6156,"fit":"weak","refused":false,"stale":false},"measured":{"fair":173.9,"gap":-0.6343,"fit":"weak","refused":false,"stale":false}},"TT":{"name":"Trane Technologies","role":"охлаждение ЦОД","layer":"dc","price":463.91,"site":true,"nobase":false,"industry":{"fair":28.1,"gap":-0.9394,"fit":"n/a","refused":false,"stale":true},"measured":{"fair":197.08,"gap":-0.5752,"fit":"shape","refused":false,"stale":false}},"AAON":{"name":"AAON","role":"охлаждение ЦОД","layer":"dc","price":83.27,"site":true,"nobase":false,"industry":{"fair":20.67,"gap":-0.7518,"fit":"shape","refused":false,"stale":true},"measured":{"fair":50.7,"gap":-0.3911,"fit":"shape","refused":false,"stale":false}},"CEG":{"name":"Constellation Energy","role":"атомная генерация","layer":"power","price":257.49,"site":true,"nobase":false,"industry":{"fair":93.18,"gap":-0.6381,"fit":"n/a","refused":false,"stale":false},"measured":{"fair":74.14,"gap":-0.7121,"fit":"n/a","refused":false,"stale":false}},"VST":{"name":"Vistra","role":"газовая и атомная генерация","layer":"power","price":140.02,"site":true,"nobase":false,"industry":{"fair":90.92,"gap":-0.3507,"fit":"n/a","refused":false,"stale":false},"measured":{"fair":61.04,"gap":-0.5641,"fit":"weak","refused":false,"stale":false}},"AGX":{"name":"Argan","role":"строит электростанции","layer":"power","price":383.83,"site":true,"nobase":false,"industry":{"fair":273.75,"gap":-0.2868,"fit":"shape","refused":false,"stale":false},"measured":{"fair":161.98,"gap":-0.578,"fit":"shape","refused":false,"stale":false}},"LEU":{"name":"Centrus Energy","role":"ядерное топливо","layer":"power","price":139.27,"site":true,"nobase":false,"industry":{"fair":102.71,"gap":-0.2625,"fit":"shape","refused":false,"stale":false},"measured":{"fair":94.65,"gap":-0.3204,"fit":"n/a","refused":false,"stale":false}},"BWXT":{"name":"BWX Technologies","role":"ядерные компоненты","layer":"power","price":134.86,"site":true,"nobase":false,"industry":{"fair":25.93,"gap":-0.8077,"fit":"weak","refused":false,"stale":true},"measured":{"fair":49.96,"gap":-0.6295,"fit":"weak","refused":false,"stale":false}},"EQT":{"name":"EQT","role":"добыча газа","layer":"power","price":50.17,"site":true,"nobase":false,"industry":{"fair":105.29,"gap":1.0987,"fit":"n/a","refused":false,"stale":false},"measured":{"fair":86.29,"gap":0.72,"fit":"n/a","refused":false,"stale":false}},"KMI":{"name":"Kinder Morgan","role":"газопроводы","layer":"power","price":31.07,"site":true,"nobase":false,"industry":{"fair":11.44,"gap":-0.6318,"fit":"n/a","refused":false,"stale":true},"measured":{"fair":16.52,"gap":-0.4683,"fit":"weak","refused":false,"stale":false}},"WMB":{"name":"Williams","role":"газопроводы","layer":"power","price":70.54,"site":true,"nobase":false,"industry":{"fair":19.68,"gap":-0.721,"fit":"weak","refused":false,"stale":false},"measured":{"fair":16.65,"gap":-0.764,"fit":"weak","refused":false,"stale":false}},"VMI":{"name":"Valmont","role":"опоры ЛЭП","layer":"power","price":478.74,"site":true,"nobase":false,"industry":{"fair":325.98,"gap":-0.3191,"fit":"level","refused":false,"stale":true},"measured":{"fair":185.55,"gap":-0.6124,"fit":"level","refused":false,"stale":false}},"OTTR":{"name":"Otter Tail","role":"энергокомпания","layer":"power","price":88.87,"site":true,"nobase":false,"industry":{"fair":79.33,"gap":-0.1073,"fit":"shape","refused":false,"stale":false},"measured":{"fair":75.06,"gap":-0.1554,"fit":"weak","refused":false,"stale":false}},"NOVT":{"name":"Novanta","role":"прецизионное движение","layer":"body","price":149.27,"site":true,"nobase":false,"industry":{"fair":20.93,"gap":-0.8598,"fit":"n/a","refused":false,"stale":true},"measured":{"fair":42.51,"gap":-0.7152,"fit":"weak","refused":false,"stale":false}},"RBC":{"name":"RBC Bearings","role":"подшипники","layer":"body","price":515.56,"site":true,"nobase":false,"industry":{"fair":177.49,"gap":-0.6557,"fit":"weak","refused":false,"stale":false},"measured":{"fair":154.17,"gap":-0.701,"fit":"weak","refused":false,"stale":false}},"TKR":{"name":"Timken","role":"подшипники, редукторы","layer":"body","price":122.44,"site":true,"nobase":false,"industry":{"fair":64.04,"gap":-0.477,"fit":"weak","refused":false,"stale":false},"measured":{"fair":66.66,"gap":-0.4556,"fit":"weak","refused":false,"stale":false}},"RRX":{"name":"Regal Rexnord","role":"моторы и приводы","layer":"body","price":159.87,"site":true,"nobase":false,"industry":{"fair":64.21,"gap":-0.5984,"fit":"weak","refused":false,"stale":false},"measured":{"fair":51.66,"gap":-0.6769,"fit":"weak","refused":false,"stale":false}},"MOG-A":{"name":"Moog","role":"прецизионные приводы","layer":"body","price":392.73,"site":true,"nobase":false,"industry":{"fair":145.71,"gap":-0.629,"fit":"weak","refused":false,"stale":false},"measured":{"fair":112.26,"gap":-0.7142,"fit":"weak","refused":false,"stale":false}},"ST":{"name":"Sensata","role":"датчики","layer":"body","price":43.51,"site":true,"nobase":false,"industry":{"fair":12.73,"gap":-0.7074,"fit":"weak","refused":false,"stale":false},"measured":{"fair":5.09,"gap":-0.883,"fit":"weak","refused":false,"stale":false}},"PH":{"name":"Parker Hannifin","role":"приводы","layer":"body","price":972.55,"site":true,"nobase":false,"industry":{"fair":349.03,"gap":-0.6411,"fit":"weak","refused":false,"stale":false},"measured":{"fair":323.37,"gap":-0.6675,"fit":"level","refused":false,"stale":false}},"AME":{"name":"AMETEK","role":"моторы, датчики","layer":"body","price":251.93,"site":true,"nobase":false,"industry":{"fair":98.71,"gap":-0.6082,"fit":"weak","refused":false,"stale":false},"measured":{"fair":92.91,"gap":-0.6312,"fit":"shape","refused":false,"stale":false}},"WWD":{"name":"Woodward","role":"приводы","layer":"body","price":331.62,"site":true,"nobase":false,"industry":{"fair":null,"gap":null,"fit":null,"refused":true,"stale":false},"measured":{"fair":147.37,"gap":-0.5556,"fit":"shape","refused":false,"stale":false}},"ITT":{"name":"ITT","role":"компоненты движения","layer":"body","price":206.17,"site":true,"nobase":false,"industry":{"fair":101.06,"gap":-0.5098,"fit":"weak","refused":false,"stale":false},"measured":{"fair":89.48,"gap":-0.566,"fit":"shape","refused":false,"stale":false}},"TXN":{"name":"Texas Instruments","role":"датчики, драйверы моторов","layer":"body","price":293.8,"site":true,"nobase":false,"industry":{"fair":83.45,"gap":-0.716,"fit":"weak","refused":false,"stale":false},"measured":{"fair":84.46,"gap":-0.7125,"fit":"shape","refused":false,"stale":false}},"MPWR":{"name":"Monolithic Power","role":"питание ускорителей, драйверы","layer":"body","price":1439.73,"site":true,"nobase":false,"industry":{"fair":408.91,"gap":-0.716,"fit":"shape","refused":false,"stale":false},"measured":{"fair":334.77,"gap":-0.7675,"fit":"shape","refused":false,"stale":false}},"MCHP":{"name":"Microchip","role":"микроконтроллеры","layer":"body","price":81.32,"site":true,"nobase":false,"industry":{"fair":22.83,"gap":-0.7193,"fit":"level","refused":false,"stale":true},"measured":{"fair":16.86,"gap":-0.7927,"fit":"weak","refused":false,"stale":false}},"ISRG":{"name":"Intuitive Surgical","role":"хирургические роботы","layer":"robots","price":391.95,"site":true,"nobase":false,"industry":{"fair":185.74,"gap":-0.5261,"fit":"shape","refused":false,"stale":false},"measured":{"fair":161.56,"gap":-0.5878,"fit":"shape","refused":false,"stale":false}},"GMED":{"name":"Globus Medical","role":"хирургическая робототехника","layer":"robots","price":75.6,"site":true,"nobase":false,"industry":{"fair":null,"gap":null,"fit":null,"refused":true,"stale":false},"measured":{"fair":65.19,"gap":-0.1377,"fit":"gold","refused":false,"stale":false}},"TER":{"name":"Teradyne","role":"коботы Universal Robots","layer":"robots","price":449.04,"site":true,"nobase":false,"industry":{"fair":42.82,"gap":-0.9046,"fit":"shape","refused":false,"stale":true},"measured":{"fair":44.24,"gap":-0.9015,"fit":"weak","refused":false,"stale":false}},"MSFT":{"name":"Microsoft","role":"Azure, доля в OpenAI","layer":"cloud","price":517.53,"site":true,"nobase":false,"industry":{"fair":347.46,"gap":-0.3286,"fit":"shape","refused":false,"stale":false},"measured":{"fair":312.66,"gap":-0.3959,"fit":"shape","refused":false,"stale":false}},"ORCL":{"name":"Oracle","role":"облако, Stargate","layer":"cloud","price":142.3,"site":true,"nobase":false,"industry":{"fair":70.32,"gap":-0.5058,"fit":"level","refused":false,"stale":false},"measured":{"fair":68.5,"gap":-0.5186,"fit":"level","refused":false,"stale":false}},"AMZN":{"name":"Amazon","role":"AWS, $50 млрд в OpenAI","layer":"cloud","price":251.52,"site":true,"nobase":false,"industry":{"fair":66.96,"gap":-0.7338,"fit":"weak","refused":false,"stale":false},"measured":{"fair":39.59,"gap":-0.8426,"fit":"weak","refused":false,"stale":false}},"GOOG":{"name":"Alphabet","role":"Google Cloud и TPU, доля в Anthropic","layer":"cloud","price":340.35,"site":true,"nobase":false,"industry":{"fair":192.04,"gap":-0.4358,"fit":"weak","refused":false,"stale":false},"measured":{"fair":170.21,"gap":-0.4999,"fit":"weak","refused":false,"stale":false}},"META":{"name":"Meta","role":"свои ЦОД и модели","layer":"cloud","price":728.08,"site":true,"nobase":false,"industry":{"fair":null,"gap":null,"fit":null,"refused":true,"stale":false},"measured":{"fair":665.56,"gap":-0.0859,"fit":"n/a","refused":false,"stale":false}},"PANW":{"name":"Palo Alto Networks","role":"Prisma AIRS: ARR больше $100 млн","layer":"cyber","price":403.24,"site":true,"nobase":false,"industry":{"fair":10.69,"gap":-0.9735,"fit":"n/a","refused":false,"stale":true},"measured":{"fair":null,"gap":null,"fit":null,"refused":true,"stale":false}},"ZS":{"name":"Zscaler","role":"безопасность ИИ: ARR больше $400 млн","layer":"cyber","price":null,"site":false,"nobase":true,"industry":{"fair":null,"gap":null,"fit":null,"refused":true,"stale":false},"measured":{"fair":null,"gap":null,"fit":null,"refused":true,"stale":false}},"FFIV":{"name":"F5","role":"≈$50 млн продаж по ИИ за полугодие","layer":"cyber","price":454.04,"site":true,"nobase":false,"industry":{"fair":169.08,"gap":-0.6276,"fit":"level","refused":false,"stale":false},"measured":{"fair":163.69,"gap":-0.6395,"fit":"level","refused":false,"stale":false}},"FTNT":{"name":"Fortinet","role":"защита ИИ-ЦОД: восьмизначные сделки","layer":"cyber","price":180.95,"site":true,"nobase":false,"industry":{"fair":31.7,"gap":-0.8248,"fit":"shape","refused":false,"stale":true},"measured":{"fair":44.61,"gap":-0.7535,"fit":"shape","refused":false,"stale":false}},"CRWD":{"name":"CrowdStrike","role":"Falcon AIDR: ARR ×3 за квартал","layer":"cyber","price":270.04,"site":true,"nobase":false,"industry":{"fair":8.9,"gap":-0.967,"fit":"n/a","refused":false,"stale":false},"measured":{"fair":null,"gap":null,"fit":null,"refused":true,"stale":false}},"S":{"name":"SentinelOne","role":"ARR ИИ-продуктов ×3 за год","layer":"cyber","price":25.06,"site":true,"nobase":false,"industry":{"fair":null,"gap":null,"fit":null,"refused":true,"stale":false},"measured":{"fair":null,"gap":null,"fit":null,"refused":true,"stale":false}},"OKTA":{"name":"Okta","role":"Okta for AI Agents: десятки сделок","layer":"cyber","price":211.49,"site":true,"nobase":false,"industry":{"fair":18.08,"gap":-0.9145,"fit":"n/a","refused":false,"stale":false},"measured":{"fair":null,"gap":null,"fit":null,"refused":true,"stale":false}},"LBRT":{"name":"Liberty Energy","role":"генерация на площадке, в т. ч. для ЦОД","layer":"power","price":19.31,"site":true,"nobase":false,"industry":{"fair":11.78,"gap":-0.39,"fit":"n/a","refused":false,"stale":false},"measured":{"fair":8.39,"gap":-0.5655,"fit":"n/a","refused":false,"stale":false}},"PUMP":{"name":"ProPetro","role":"генерация электроэнергии (ProPWR)","layer":"power","price":9.27,"site":true,"nobase":false,"industry":{"fair":10.12,"gap":0.0917,"fit":"n/a","refused":false,"stale":false},"measured":{"fair":null,"gap":null,"fit":null,"refused":true,"stale":false}},"BE":{"name":"Bloom Energy","role":"топливные элементы: электричество на площадке ЦОД","layer":"power","price":289.15,"site":true,"nobase":false,"industry":{"fair":3.59,"gap":-0.9876,"fit":"n/a","refused":false,"stale":false},"measured":{"fair":null,"gap":null,"fit":null,"refused":true,"stale":false}},"NGS":{"name":"Natural Gas Services","role":"компрессия газа","layer":"power","price":33.17,"site":true,"nobase":false,"industry":{"fair":2.06,"gap":-0.9379,"fit":"weak","refused":false,"stale":false},"measured":{"fair":3.01,"gap":-0.9093,"fit":"shape","refused":false,"stale":true}},"NOV":{"name":"NOV","role":"буровое оборудование для добычи газа","layer":"power","price":18.8,"site":true,"nobase":false,"industry":{"fair":22.82,"gap":0.2138,"fit":"weak","refused":false,"stale":false},"measured":{"fair":14.7,"gap":-0.2181,"fit":"shape","refused":false,"stale":false}},"CORZ":{"name":"Core Scientific","role":"ИИ-хостинг для CoreWeave","layer":"dc","price":16.45,"site":true,"nobase":false,"industry":{"fair":null,"gap":null,"fit":null,"refused":true,"stale":false},"measured":{"fair":null,"gap":null,"fit":null,"refused":true,"stale":false}},"RIOT":{"name":"Riot Platforms","role":"площадки с электричеством под ИИ","layer":"dc","price":19.73,"site":true,"nobase":false,"industry":{"fair":1.86,"gap":-0.9057,"fit":"n/a","refused":false,"stale":false},"measured":{"fair":null,"gap":null,"fit":null,"refused":true,"stale":false}},"MRVL":{"name":"Marvell","role":"заказные ИИ-чипы и оптика для ЦОД","layer":"chips","price":272.29,"site":true,"nobase":false,"industry":{"fair":11.91,"gap":-0.9563,"fit":"n/a","refused":false,"stale":false},"measured":{"fair":null,"gap":null,"fit":null,"refused":true,"stale":false}},"MTRN":{"name":"Materion","role":"материалы для производства чипов","layer":"chips","price":312.16,"site":true,"nobase":false,"industry":{"fair":88.52,"gap":-0.7164,"fit":"shape","refused":false,"stale":false},"measured":{"fair":45.76,"gap":-0.8534,"fit":"weak","refused":false,"stale":false}},"DIOD":{"name":"Diodes","role":"аналоговые чипы, датчики Холла","layer":"body","price":103.84,"site":true,"nobase":false,"industry":{"fair":48.72,"gap":-0.5308,"fit":"weak","refused":false,"stale":false},"measured":{"fair":55.04,"gap":-0.47,"fit":"shape","refused":false,"stale":false}},"CTS":{"name":"CTS","role":"датчики и актуаторы","layer":"body","price":61.6,"site":true,"nobase":false,"industry":{"fair":null,"gap":null,"fit":null,"refused":true,"stale":false},"measured":{"fair":28.58,"gap":-0.536,"fit":"shape","refused":false,"stale":false}},"BHE":{"name":"Benchmark Electronics","role":"контрактная сборка электроники","layer":"body","price":87.39,"site":true,"nobase":false,"industry":{"fair":31.21,"gap":-0.6429,"fit":"weak","refused":false,"stale":false},"measured":{"fair":24.6,"gap":-0.7185,"fit":"level","refused":false,"stale":false}},"NOW":{"name":"ServiceNow","role":"ИИ-агенты для компаний (Now Assist)","layer":"soft","price":134.38,"site":true,"nobase":false,"industry":{"fair":29.81,"gap":-0.7782,"fit":"shape","refused":false,"stale":false},"measured":{"fair":22.92,"gap":-0.8294,"fit":"n/a","refused":false,"stale":false}},"ACN":{"name":"Accenture","role":"внедрение ИИ в компаниях","layer":"soft","price":198.9,"site":true,"nobase":false,"industry":{"fair":202.56,"gap":0.0184,"fit":"shape","refused":false,"stale":false},"measured":{"fair":209.41,"gap":0.0528,"fit":"shape","refused":false,"stale":false}},"IBM":{"name":"IBM","role":"ИИ-платформа watsonx и консалтинг","layer":"soft","price":222.64,"site":true,"nobase":false,"industry":{"fair":65.15,"gap":-0.7074,"fit":"level","refused":false,"stale":false},"measured":{"fair":43.4,"gap":-0.8051,"fit":"level","refused":false,"stale":false}},"ADBE":{"name":"Adobe","role":"генеративный ИИ в софте (Firefly)","layer":"soft","price":237.69,"site":true,"nobase":false,"industry":{"fair":387.61,"gap":0.6307,"fit":"shape","refused":false,"stale":false},"measured":{"fair":349.51,"gap":0.4704,"fit":"shape","refused":false,"stale":false}}}}</script>
+<script>
+const DATA = JSON.parse(document.getElementById('data').textContent);
+const CO = DATA.companies;
+const SITE = 'https://sergeysolovyev.github.io/datum-203/#';
+const RANK = {gold: 0, shape: 1, level: 2, weak: 3, 'n/a': 4};
+const pct = g => (g > 0 ? '+' : g < 0 ? '−' : '') + Math.abs(Math.round(g * 100)) + '%';
+const usable = m => m && !m.refused && m.gap !== null && m.gap !== undefined;
+function best(t) {
+  const c = CO[t], ms = ['industry', 'measured'].map(k => Object.assign({k}, c[k])).filter(usable);
+  ms.sort((a, b) => (RANK[a.fit] ?? 9) - (RANK[b.fit] ?? 9) || (a.stale - b.stale) || (a.k === 'measured' ? -1 : 1));
+  return ms[0] || null;
+}
+function el(tag, cls, text) { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+const YF = 'https://finance.yahoo.com/quote/';
+const onSite = t => !!(CO[t] && CO[t].site);
+const tkHref = t => (onSite(t) ? SITE : YF) + encodeURIComponent(t);
+function tkA(t, text) {
+  const a = el('a', 'tkl', text == null ? t : text); a.href = tkHref(t); a.target = '_blank'; a.rel = 'noopener';
+  a.title = (CO[t] ? CO[t].name + ' — ' : '') + (onSite(t) ? 'карточка на сайте' : 'карточки на сайте нет, откроется Yahoo Finance');
+  return a;
+}
+function tkSvgLine(te, items, sep = ' · ') {      // tickers inside an SVG <text>, each a link
+  const NS = 'http://www.w3.org/2000/svg';
+  items.forEach(([t, rest], i) => {
+    if (i) te.append(document.createTextNode(sep));
+    const a = document.createElementNS(NS, 'a'); a.setAttribute('href', tkHref(t)); a.setAttribute('target', '_blank');
+    const ts = document.createElementNS(NS, 'tspan'); ts.setAttribute('class', 'tks'); ts.textContent = t; a.append(ts); te.append(a);
+    if (rest) te.append(document.createTextNode(' ' + rest));
+  });
+  return te;
+}
+const TK_RE = new RegExp('\\b(' + Object.keys(CO).filter(t => t.length > 1).sort((a, b) => b.length - a.length).map(t => t.replace('-', '\\-')).join('|') + ')\\b', 'g');
+function linkify(root) {                             // tickers written in running text become links
+  if (!root) return;
+  const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {acceptNode: n => n.parentElement.closest('a, svg, script, style') ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT});
+  const nodes = []; while (w.nextNode()) nodes.push(w.currentNode);
+  nodes.forEach(n => {
+    const s = n.nodeValue; TK_RE.lastIndex = 0; if (!TK_RE.test(s)) return; TK_RE.lastIndex = 0;
+    const f = document.createDocumentFragment(); let last = 0, m;
+    while ((m = TK_RE.exec(s))) { f.append(s.slice(last, m.index), tkA(m[1])); last = m.index + m[0].length; }
+    f.append(s.slice(last)); n.replaceWith(f);
+  });
+}
+function tkChip(t) {
+  const c = CO[t], b = best(t), a = el('a', 'tk' + (c.site ? '' : ' off'));
+  a.href = tkHref(t); a.target = '_blank'; a.rel = 'noopener';
+  a.append(t + ' ');
+  a.append(el('i', null, c.role));     // what the company earns on in the AI chain; the DCF gap goes to the title
+  a.title = c.name + ' — ' + c.role + ' · DCF: ' + (b ? pct(b.gap) + ' ' + b.fit + (b.stale ? ' (оценка старше года)' : '') : 'нет оценки')
+    + (c.nobase ? ' (нет в нашей базе; откроется Yahoo Finance)' : c.site ? '' : ' (карточки на сайте нет; откроется Yahoo Finance)');
+  return a;
+}
+const CATS = {
+  chips: ['Чипы и память', '--s1'], net: ['Сети, оптика, разъёмы', '--s2'], dc: ['ЦОД: электрика, стройка, охлаждение, площадки', '--s3'],
+  power: ['Энергия: газ, атом, сети', '--s4'], body: ['«Тело» робота: приводы, датчики, подшипники', '--s5'],
+  robots: ['Роботы, которые уже работают', '--s6'], cyber: ['Безопасность ИИ: заказы уже есть', '--s8'],
+  soft: ['ИИ-софт и внедрение', '--ink-3'], cloud: ['Гиперскейлеры и облака', '--s7']};
+const CYBER_ORDERS = [
+  ['PANW', 'ARR > $100 млн', 'Prisma AIRS: ARR больше $100 млн за 4 квартала после запуска; больше 800 клиентов; сделка больше $20 млн (кв. до 31.07.2026)'],
+  ['ZS', 'ARR > $400 млн', 'AI Protect, Security for AI: ARR направления больше $400 млн, +80% г/г (широкое определение); заказы AI Protect больше $100 млн за 12 месяцев'],
+  ['FFIV', '≈$50 млн за полгода', 'AI Guardrails, AI Red Team: около $50 млн продаж по ИИ-сценариям за полугодие, +200% г/г; клиентов безопасности ИИ вдвое больше за квартал'],
+  ['FTNT', '8-значные сделки', 'Защита ИИ-ЦОД: восьмизначная сделка с облаком для ИИ-нагрузок, до этого семизначная; восьмизначная с оператором ЦОД (IV кв. 2025 – II кв. 2026)'],
+  ['CRWD', 'ARR ×3 за квартал', 'Falcon AIDR: ARR почти утроился за квартал; восьмизначная сделка с одним из крупнейших банков; воронка больше $50 млн'],
+  ['S', 'ARR ×3 за год', 'Prompt Security, Purple AI: ARR ИИ-продуктов почти утроился г/г; ARR Prompt Security удваивается каждый квартал; клиент — Bell Canada'],
+  ['OKTA', 'десятки сделок', 'Okta for AI Agents: десятки сделок за квартал, многомиллионная — с компанией из Fortune 50; «пока слишком мало, чтобы видеть в цифрах»'],
+  ['MSFT', '40 млн ИИ-агентов', 'Agent 365: почти 40 млн зарегистрированных ИИ-агентов в десятках тысяч компаний через 2 месяца после запуска']];
+const NODES = [
+  ['c1', 'f_sb', 'SoftBank', 'В OpenAI: ≈$0,5 млрд в 2024, ≈$30 млрд в 2025 и $30 млрд в 2026 (≈13% компании). Купил DigitalBridge за $4 млрд: ЦОД и связь.'],
+  ['c1', 'f_nv', 'Nvidia', '$99 млрд вложено в акции, ещё $25 млрд обещано. В 2026: $30 млрд в OpenAI, $5 млрд в SSI, по $2 млрд в CoreWeave и Nebius.'],
+  ['c1', 'f_hs', 'Гиперскейлеры и облака', 'Amazon дал OpenAI $50 млрд; ранее обещанные $15 млрд гиперскейлеров вошли в раунд Anthropic H; Microsoft строит ЦОД вместе с MGX и BlackRock (AIP). Сами же и покупают «железо».', 'cloud'],
+  ['c1', 'f_sw', 'Суверенные фонды', 'MGX (фонд $49 млрд), QIA, GIC, Temasek (ИИ — 6% портфеля, цель до 15% к 2031), PIF и HUMAIN.'],
+  ['c1', 'f_vc', 'Фонды роста и венчур', 'Coatue, Lightspeed, ICONIQ, Dragoneer, Greenoaks, DST ведут раунды Anthropic. Lightspeed вложил ≈$2,5 млрд в 100+ ИИ-компаний.'],
+  ['c2', 'r_labs', 'Лаборатории ИИ', 'OpenAI — $122 млрд (оценка $852 млрд), Anthropic — $30 и 65 млрд ($965 млрд), xAI — $20 млрд. Обе первые идут к IPO.'],
+  ['c2', 'r_cloud', 'ИИ-облака', 'CoreWeave, Nebius, Crusoe ($1,4 млрд), Nscale ($1,1 млрд). Nvidia обязалась выкупать у них мощность на $36 млрд.'],
+  ['c2', 'r_dc', 'ЦОД и площадки', 'Aligned (≈$40 млрд, покупка MGX и AIP), Yondr, Stargate, HUMAIN, кампус MGX на 3 ГВт во Франции. Nvidia гарантирует до $105 млрд по кампусу SB Energy и OpenAI.'],
+  ['c2', 'r_robot', 'Роботы и автономия', 'Figure (больше $1 млрд в 2025), Wayve ($1,05 млрд), Skild. Пока это единицы миллиардов против сотен у лабораторий.'],
+  ['c2', 'r_ent', 'Компании, внедряющие ИИ', 'Расходы на ИИ в мире — около $2,6–2,7 трлн в 2026 году (Gartner). ИИ-агентов уже внедрили 17% компаний, ещё больше 60% собираются за два года. Каждый агент получает доступ к данным, и его надо защищать.'],
+  ['c3', 'chips'], ['c3', 'net'], ['c3', 'dc'], ['c3', 'power'], ['c3', 'cyber'], ['c3', 'soft'], ['c3', 'body'], ['c3', 'robots']];
+const LINKS = [['f_sb', 'r_labs', 3], ['f_sb', 'r_dc', 1], ['f_sb', 'r_robot', 1], ['f_nv', 'r_labs', 3], ['f_nv', 'r_cloud', 2],
+  ['f_nv', 'r_dc', 2], ['f_nv', 'r_robot', 1], ['f_hs', 'r_labs', 3], ['f_hs', 'r_dc', 1], ['f_sw', 'r_labs', 2], ['f_sw', 'r_dc', 2],
+  ['f_vc', 'r_labs', 2], ['f_vc', 'r_robot', 1], ['r_labs', 'chips', 3], ['r_labs', 'net', 1], ['r_cloud', 'chips', 3],
+  ['r_cloud', 'net', 2], ['r_cloud', 'dc', 1], ['r_dc', 'dc', 3], ['r_dc', 'power', 3], ['r_dc', 'net', 1],
+  ['r_robot', 'body', 2], ['r_robot', 'chips', 1], ['r_robot', 'robots', 1],
+  ['r_ent', 'cyber', 3], ['r_ent', 'soft', 3], ['r_ent', 'chips', 1], ['r_labs', 'cyber', 1], ['r_cloud', 'cyber', 1], ['r_dc', 'cyber', 1]];
+const byLayer = l => Object.keys(CO).filter(t => CO[t].layer === l);
+const TITLE = {};
+NODES.forEach(([col, id, title, text, layer]) => {
+  const n = el('div', 'node'); n.id = 'n_' + id;
+  const cat = CATS[layer || id];
+  if (cat) n.style.setProperty('--c', 'var(' + cat[1] + ')');
+  TITLE[id] = title || cat[0];
+  n.append(el('h4', null, TITLE[id]));
+  if (text) n.append(el('p', null, text));
+  if (cat && id === 'cyber') {      // here the chip says what the company itself disclosed as orders; DCF in the title
+    const box = el('div', 'tks');
+    CYBER_ORDERS.forEach(([t, s, full]) => { const a = tkChip(t); a.lastChild.textContent = s; a.title = CO[t].name + ' — ' + full + ' · ' + a.title.split(' · ').slice(1).join(' · '); box.append(a); });
+    n.append(box, el('p', null, 'У тикера — заказы, которые компания сама раскрыла в отчётах и на звонках с инвесторами 2025–2026 годов; подробности при наведении. Пока без цифр: Check Point, Cloudflare, Cisco, Akamai, Varonis, Rubrik.'));
+  } else if (cat) { const box = el('div', 'tks'); byLayer(layer || id).forEach(t => box.append(tkChip(t))); n.append(box); }
+  document.getElementById(col).append(n);
+});
+NODES.forEach(([, id]) => {
+  const outs = LINKS.filter(l => l[0] === id).map(l => TITLE[l[1]]);
+  if (outs.length) document.getElementById('n_' + id).append(el('div', 'to', '→ ' + outs.join(', ')));
+});
+function drawLinks() {
+  const svg = document.getElementById('links'), box = document.getElementById('flow').getBoundingClientRect();
+  svg.textContent = '';
+  if (getComputedStyle(svg).display === 'none') return;
+  const NS = 'http://www.w3.org/2000/svg';
+  LINKS.forEach(([a, b, w]) => {
+    const A = document.getElementById('n_' + a).getBoundingClientRect(), B = document.getElementById('n_' + b).getBoundingClientRect();
+    const x1 = A.right - box.left, y1 = A.top + A.height / 2 - box.top, x2 = B.left - box.left, y2 = B.top + B.height / 2 - box.top, dx = (x2 - x1) / 2;
+    const p = document.createElementNS(NS, 'path');
+    p.setAttribute('d', `M${x1},${y1} C${x1 + dx},${y1} ${x2 - dx},${y2} ${x2},${y2}`);
+    const cat = CATS[b];
+    p.setAttribute('stroke', cat ? `var(${cat[1]})` : 'var(--ink-3)');
+    p.setAttribute('stroke-width', w * 3); p.setAttribute('fill', 'none'); p.setAttribute('stroke-opacity', cat ? .45 : .3);
+    p.setAttribute('stroke-linecap', 'round');
+    svg.append(p);
+  });
+}
+
+// UN World Population Prospects 2024, medium variant (via Our World in Data): population 15-64, 2025 = 100; 65+ per 100 aged 15-64
+const UNWPP_IDX = {"Китай": [[2000, 88.1], [2010, 99.8], [2015, 101.3], [2020, 100.3], [2025, 100.0], [2030, 98.5], [2035, 94.2], [2040, 87.1], [2045, 81.8], [2050, 75.5], [2055, 67.7], [2060, 62.1], [2065, 57.8], [2070, 53.1], [2075, 47.5]], "Япония": [[2000, 119.7], [2010, 112.6], [2015, 106.0], [2020, 102.8], [2025, 100.0], [2030, 96.6], [2035, 91.7], [2040, 84.1], [2045, 78.4], [2050, 74.5], [2055, 71.9], [2060, 70.1], [2065, 68.1], [2070, 65.5], [2075, 62.4]], "Корея": [[2000, 93.7], [2010, 98.7], [2015, 104.1], [2020, 104.1], [2025, 100.0], [2030, 94.9], [2035, 88.0], [2040, 79.7], [2045, 72.8], [2050, 66.0], [2055, 60.6], [2060, 54.3], [2065, 48.6], [2070, 44.3], [2075, 40.1]], "Германия": [[2000, 105.8], [2010, 101.3], [2015, 102.8], [2020, 102.6], [2025, 100.0], [2030, 94.5], [2035, 90.5], [2040, 88.7], [2045, 87.0], [2050, 84.4], [2055, 81.6], [2060, 80.0], [2065, 79.5], [2070, 79.6], [2075, 79.0]], "США": [[2000, 83.7], [2010, 93.7], [2015, 96.8], [2020, 99.3], [2025, 100.0], [2030, 100.6], [2035, 101.5], [2040, 102.5], [2045, 103.3], [2050, 103.7], [2055, 104.0], [2060, 104.6], [2065, 105.5], [2070, 105.6], [2075, 105.0]], "Индия": [[2000, 63.4], [2010, 79.1], [2015, 87.0], [2020, 94.1], [2025, 100.0], [2030, 105.1], [2035, 109.0], [2040, 111.6], [2045, 113.1], [2050, 113.2], [2055, 112.1], [2060, 110.0], [2065, 107.1], [2070, 103.6], [2075, 100.2]]};
+const UNWPP_DEP = {"Китай": [21, 52], "Япония": [51, 72], "Корея": [29, 75], "Германия": [38, 53], "США": [28, 38], "Индия": [11, 22]};
+
+// Gartner's Hype Cycle for AI redrawn from the official charts: the 2025 one is public in full, the 2026 one only near
+// the peak (positions mapped through the phase borders). Humanoids: Hype Cycle for Physical AI 2026.
+function hypeCurve() {
+  const NS = 'http://www.w3.org/2000/svg', W = 1000, H = 520;
+  const mk = (tag, a, txt) => { const e = document.createElementNS(NS, tag); for (const k in a) e.setAttribute(k, a[k]); if (txt != null) e.textContent = txt; return e; };
+  const X = x => 60 + (x - 120) * 900 / 780, Y = y => 20 + y * 0.923;          // from the 2025 chart's pixel frame
+  const P = [[120, 436], [160, 400], [200, 300], [230, 215], [255, 150], [281, 110], [305, 82], [330, 70], [352, 68], [372, 75], [390, 105],
+    [400, 150], [410, 230], [420, 300], [440, 355], [470, 385], [500, 390], [530, 385], [565, 370], [600, 340], [640, 300], [690, 262], [750, 240], [820, 230], [900, 228]];
+  const S = [];                                                                    // Catmull-Rom samples
+  for (let i = 0; i < P.length - 1; i++) {
+    const p0 = P[Math.max(0, i - 1)], p1 = P[i], p2 = P[i + 1], p3 = P[Math.min(P.length - 1, i + 2)];
+    for (let k = 0; k < 24; k++) { const t = k / 24, t2 = t * t, t3 = t2 * t;
+      S.push([0, 1].map(j => 0.5 * (2 * p1[j] + (-p0[j] + p2[j]) * t + (2 * p0[j] - 5 * p1[j] + 4 * p2[j] - p3[j]) * t2 + (-p0[j] + 3 * p1[j] - 3 * p2[j] + p3[j]) * t3))); }
+  }
+  S.push(P[P.length - 1]);
+  const at = x => { for (let i = 1; i < S.length; i++) if (S[i][0] >= x) { const a = S[i - 1], b = S[i], f = (x - a[0]) / ((b[0] - a[0]) || 1); return [X(x), Y(a[1] + f * (b[1] - a[1]))]; } return [X(x), Y(S[S.length - 1][1])]; };
+  const svg = mk('svg', {viewBox: `0 0 ${W} ${H}`, role: 'img', 'aria-label': 'Кривая Gartner по ИИ: позиции 2025 и 2026 годов'});
+  svg.style.cssText = 'display:block;width:100%;margin-top:14px';
+  const defs = mk('defs'), mh = mk('marker', {id: 'hah', viewBox: '0 0 10 10', refX: 8, refY: 5, markerWidth: 6, markerHeight: 6, orient: 'auto'});
+  mh.append(mk('path', {d: 'M0,0 L10,5 L0,10 z', fill: 'var(--s2)'})); defs.append(mh); svg.append(defs);
+  // phases
+  const B = [120, 281, 395, 557, 754, 900], NAMES = ['запуск', 'пик завышенных ожиданий', 'провал', 'склон просвещения', 'плато продуктивности'];
+  svg.append(mk('line', {x1: 60, x2: 960, y1: 448, y2: 448, stroke: 'var(--ink-3)'}));
+  B.slice(1, 5).forEach(b => svg.append(mk('line', {x1: X(b), x2: X(b), y1: 20, y2: 448, stroke: 'var(--rule)'})));
+  NAMES.forEach((n, i) => svg.append(mk('text', {x: (X(B[i]) + X(B[i + 1])) / 2, y: 470, 'text-anchor': 'middle', 'font-size': 12.5, fill: 'var(--ink-2)'}, n)));
+  svg.append(mk('text', {x: 60, y: 496, 'font-size': 12, fill: 'var(--ink-3)'}, 'время →'));
+  svg.append(mk('text', {x: 22, y: 240, 'font-size': 12, fill: 'var(--ink-3)', transform: 'rotate(-90 22 240)', 'text-anchor': 'middle'}, 'ожидания →'));
+  svg.append(mk('path', {d: S.map((p, i) => (i ? 'L' : 'M') + X(p[0]).toFixed(1) + ',' + Y(p[1]).toFixed(1)).join(''), fill: 'none', stroke: 'var(--ink-3)', 'stroke-width': 2.2}));
+  // marker by Gartner's "years to plateau"
+  const mark = (x, y, cls, faded) => {
+    const o = faded ? .35 : 1;
+    if (cls === '>10') return mk('path', {d: `M${x},${y - 8} L${x + 7.5},${y + 5} L${x - 7.5},${y + 5} Z`, fill: 'var(--s4)', stroke: 'var(--surface)', 'stroke-width': 1.5, opacity: o});
+    return mk('circle', {cx: x, cy: y, r: 6.5, opacity: o, stroke: cls === '<2' ? 'var(--ink-2)' : 'var(--surface)', 'stroke-width': cls === '<2' ? 1.5 : 2,
+      fill: cls === '<2' ? 'var(--surface)' : cls === '2-5' ? 'var(--promise)' : 'var(--s1)'});
+  };
+  const PH = x => x < 281 ? 'запуск' : x < 395 ? 'пик ожиданий' : x < 557 ? 'провал' : x < 754 ? 'склон' : 'плато';
+  // [name, english, x2025, x2026, years to plateau, label x, label y, anchor]
+  const T = [
+    ['Гуманоидные роботы', 'Humanoid robots (Physical AI 2026)', null, 150, '>10', 112, 420, 'start'],
+    ['Физический ИИ (новое)', 'Physical AI (2025: Embodied AI)', null, 234, '5-10', 176, 213, 'end'],
+    ['Управление ИИ', 'AI governance', 209, 261, '2-5', 200, 172, 'end'],
+    ['Модели мира', 'World models', 237, 264, '5-10', 200, 152, 'end'],
+    ['AGI', 'Artificial general intelligence', null, 271, '>10', 200, 132, 'end'],
+    ['FinOps для ИИ: учёт затрат', 'FinOps for AI', 253, 294, '2-5', 200, 104, 'end'],
+    ['Суверенный ИИ — на вершине', 'Sovereign AI', 328, 340, '2-5', 300, 40, 'end'],
+    ['Инженерия ИИ', 'AI engineering', null, 368, '2-5', 362, 40, 'start'],
+    ['ИИ-агенты — перевалили вершину', 'AI agents', 341, 387, '2-5', 432, 98, 'start'],
+    ['Мультимодальный ИИ', 'Multimodal AI', 317, 392, '2-5', 432, 124, 'start'],
+    ['Базовые модели (2025)', 'Foundation models', 400, null, '2-5', 432, 158, 'start'],
+    ['Данные для ИИ — быстро вниз', 'AI-ready data', 353, 413, '2-5', 432, 238, 'start'],
+    ['Генеративный ИИ — в провал (2025)', 'Generative AI', 412, null, '2-5', 432, 268, 'start'],
+    ['Облачные ИИ-сервисы', 'Cloud AI services', 565, null, '2-5', 590, 398, 'start'],
+    ['Графы знаний', 'Knowledge graphs', 593, null, '2-5', 628, 374, 'start'],
+    ['Дистилляция моделей', 'Model distillation', 620, null, '2-5', 660, 350, 'start']];
+  T.forEach(([n, en, x25, x26, cls, lx, ly, anc]) => {
+    const g = mk('g', {tabindex: 0}), now = x26 ?? x25, [px, py] = at(now);
+    if (x25 != null && x26 != null && Math.abs(x26 - x25) > 6) {           // the year's move, along the curve and above it
+      let d = ''; for (let x = x25; x <= x26; x += 2) { const [ax, ay] = at(x); d += (d ? 'L' : 'M') + ax.toFixed(1) + ',' + (ay - 11).toFixed(1); }
+      g.append(mk('path', {d, fill: 'none', stroke: 'var(--s2)', 'stroke-width': 2, 'marker-end': 'url(#hah)'}));
+      const [ox, oy] = at(x25); g.append(mark(ox, oy, cls, true));
+    }
+    g.append(mark(px, py, cls, x26 == null));
+    const tw = anc === 'end' ? lx + 3 : lx - 3;
+    g.append(mk('line', {x1: tw, y1: ly - 4, x2: px, y2: py, stroke: 'var(--ink-3)', 'stroke-width': .8}));
+    g.append(mk('text', {x: lx, y: ly, 'text-anchor': anc, 'font-size': 12.5, 'font-weight': /Гуманоид|Физический|агенты|Генеративный/.test(n) ? 650 : 400, fill: 'var(--ink)'}, n));
+    g.append(mk('circle', {cx: px, cy: py, r: 14, fill: 'transparent'}));
+    const yrs = {'<2': 'меньше 2 лет', '2-5': '2–5 лет', '5-10': '5–10 лет', '>10': 'больше 10 лет'}[cls];
+    hover(g, [n.replace(/ —.*| \(2025\)/, '') + ' · ' + en, (x25 != null ? '2025: ' + PH(x25) : '2025: —') + (x26 != null ? ' → 2026: ' + PH(x26) : ''), 'До плато продуктивности: ' + yrs]);
+    svg.append(g);
+  });
+  // what Gartner leaves off the curve
+  svg.append(mk('rect', {x: 700, y: 34, width: 285, height: 92, rx: 10, fill: 'var(--surface-2)', stroke: 'var(--rule)'}));
+  [['Вне кривой: энергия, ЦОД, чипы, память', 650], ['Для Gartner это не ожидания, а физический', 400], ['предел. Именно туда идут деньги со всех', 400], ['волн — см. Рис. 1–3 части 2.', 400]].forEach(([s, w], i) =>
+    svg.append(mk('text', {x: 712, y: 56 + i * 19, 'font-size': 12.5, 'font-weight': w, fill: 'var(--ink)'}, s)));
+  const box = el('div'); box.append(svg);
+  const lg = el('div', 'legend');
+  lg.innerHTML = '<span><i style="background:var(--surface);border:1.5px solid var(--ink-2);border-radius:50%"></i>до плато меньше 2 лет</span>'
+    + '<span><i style="background:var(--promise);border-radius:50%"></i>2–5 лет</span><span><i style="background:var(--s1);border-radius:50%"></i>5–10 лет</span>'
+    + '<span><i style="background:var(--s4);clip-path:polygon(50% 0,100% 100%,0 100%)"></i>больше 10 лет</span>'
+    + '<span><i style="background:var(--s2);height:2px;width:18px;vertical-align:3px"></i>сдвиг за год: бледная точка — 2025, яркая — 2026</span>';
+  box.append(lg, el('div', 'note', 'Перерисовано по официальным кривым Gartner: Hype Cycle for AI 2025 (полностью), Hype Cycle for AI 2026 (Gartner открывает только участок у вершины), Hype Cycle for Physical AI 2026 (гуманоиды). Позиции 2026 года перенесены по границам фаз; генеративный ИИ и правая часть кривой — по 2025 году.'));
+  const links = el('div', 'note');
+  [['кривая ИИ 2025', 'https://emt.gartnerweb.com/ngw/globalassets/en/newsroom/images/graphs/et-hc-2025-press-release.jpg'],
+   ['кривая ИИ 2026', 'https://www.gartner.com/en/articles/hype-cycle-for-artificial-intelligence'],
+   ['кривая физического ИИ 2026', 'https://www.gartner.com/en/articles/hype-cycle-for-physical-ai']].forEach(([s, u], i) => {
+    if (i) links.append(' · '); else links.append('Оригиналы Gartner: ');
+    const a = el('a', null, s); a.href = u; a.target = '_blank'; a.rel = 'noopener'; links.append(a); });
+  box.append(links);
+  return box;
+}
+
+const ORDER = ['chips', 'net', 'dc', 'power', 'cyber', 'soft', 'body', 'robots', 'cloud'];
+const ALL = ORDER.flatMap(byLayer);
+const num = (x, d = 2) => x.toLocaleString('ru-RU', {minimumFractionDigits: d, maximumFractionDigits: d});
+const bg = ALL.map(t => [t, best(t)]).filter(x => x[1] && x[1].fit !== 'n/a');   // n/a: too few values to hold against the price
+const gaps = bg.map(x => x[1].gap).sort((a, b) => a - b);
+const med = gaps[Math.floor(gaps.length / 2)];
+const below30 = gaps.filter(g => g <= -0.3).length;
+const worst = bg.slice().sort((a, b) => a[1].gap - b[1].gap).slice(0, 4).map(x => x[0]);
+const gold = bg.filter(x => x[1].fit === 'gold' && x[1].gap < 0 && x[1].gap > -0.5 && !x[1].stale).sort((a, b) => b[1].gap - a[1].gap)
+  .map(x => `${x[0]} (${x[1].k === 'industry' ? 'Industry' : 'Measured'} ${pct(x[1].gap)})`);
+const above = bg.filter(x => x[1].gap > 0).map(x => x[0]);
+const body = bg.filter(x => CO[x[0]].layer === 'body').map(x => x[1].gap);
+const IDEAS = [
+  ['Деньги входят наверху, а выручка появляется внизу.', 'Почти весь капитал идёт в частные компании: OpenAI, Anthropic, ИИ-облака, ЦОД. На бирже их нет. Они тратят деньги на чипы, сети, электрику, охлаждение и энергию, и это выручка наших публичных компаний. Значит, их выручка зависит от того, продолжатся ли мега-раунды.'],
+  ['Цепочка растянута во времени.', 'Чипы получают деньги сразу. Электрика и стройка ЦОД — с задержкой: трансформаторы поставляют 1–4 года, газовые турбины расписаны на годы вперёд. Генерация растёт в 2026–2030 годах. Роботы, по Morgan Stanley, начнут заметно влиять на прибыль через 5–7 лет. Чем дальше по цепочке, тем позже приходят деньги.'],
+  ['Спрос законтрактован на годы вперёд.', 'Nvidia не только продаёт чипы, но и финансирует и гарантирует спрос: доли в покупателях, выкуп мощности облаков, гарантия аренды в Огайо на 20 лет. У CoreWeave портфель заказов $104 млрд, у Micron пятилетние контракты без права отмены, газовые турбины расписаны на годы. При дорогих деньгах так подписываются, только когда видят спрос, — это видимость выручки для всей цепочки. Обратная сторона одна: если покупатели не смогут платить, гарантии придётся исполнять самим поставщикам.'],
+  ['Главная развилка — IPO OpenAI и Anthropic и прогнозы нагрузки ЦОД.', `Если публичный рынок не примет оценки $852 и $965 млрд или прогнозы нагрузки снизятся (PJM уже снизил ближние), денег сверху станет меньше. Сильнее всего это ударит по бумагам с самым большим разрывом: ${worst.join(', ')}.`],
+  ['Ближе всего к цене — немногие.', `С классом gold: ${gold.join(', ')}. Выше цены: ${above.join(', ')}. У NVDA модель Measured почти совпадает с ценой.`],
+  ['Физический ИИ — пока ранний опцион, и кривая Gartner говорит то же.', `Роботы получают единицы миллиардов (Figure, Wayve, Skild) против $217 млрд у двух лабораторий. На кривой Gartner (Hype Cycle for Physical AI, июль 2026) гуманоиды только в фазе запуска: до массового применения больше 10 лет, к 2028 году меньше 20 компаний выйдут с ними на промышленный масштаб. Генеративный ИИ уже прошёл пик и провал, ИИ-агенты на пике сейчас. Энергии, ЦОД и чипов на кривой нет вовсе: для Gartner это не ожидания, а физическое ограничение, и деньги идут именно туда. SoftBank, Nvidia, Salesforce Ventures, Lightspeed и Paradigm уже расширяют мандаты на робототехнику: это ранний признак следующей фазы. Половина себестоимости робота — приводы, поэтому выиграют поставщики движения. Наши такие бумаги по моделям дорогие: наша оценка ниже цены на ${Math.round(-Math.max(...body) * 100)}–${Math.round(-Math.min(...body) * 100)}%.`]];
+IDEAS.forEach(([h, t]) => { const li = el('li'); li.append(el('b', null, h), el('span', null, t)); document.getElementById('ideas').append(li); });
+document.querySelector('#ideas li:last-child').append(hypeCurve());
+[['Вложено в акции компаний (баланс)', 99, 0, '$99 млрд'], ['Обязательство вложить ещё', 25, 1, '$25 млрд'],
+ ['Выкуп мощности ИИ-облаков', 36, 1, '$36 млрд'], ['Гарантия аренды кампуса в Огайо (20 лет)', 105, 1, 'до $105 млрд'],
+ ['Меморандумы: привлечь финансирование для ЦОД', 500, 1, 'больше $500 млрд']].forEach(([l, v, pr, s]) => {
+  const row = el('div', 'bar'), tr = el('div', 'track'), f = el('div', 'fill' + (pr ? ' pr' : '')), w = v / 500 * 100, val = el('span', 'val', s);
+  f.style.width = w + '%';
+  if (w > 80) { val.style.right = '8px'; } else { val.style.left = `calc(${w}% + 8px)`; }
+  tr.append(f, val); row.append(el('div', 'lbl', l), tr); document.getElementById('nvbars').append(row);
+});
+[['2023', 'Гонка моделей', 'Венчур в генеративный ИИ вырос с $2,8 до $15,3 млрд. Nvidia входит в раунды Cohere, Hugging Face, Runway, Together AI.', 'NVDA, производители чипов'],
+ ['2024', 'Стройка инфраструктуры', 'Инфраструктура и хостинг — $47,4 млрд. AIP (Microsoft, BlackRock, MGX): цель $30 млрд капитала, до $100 млрд с долгом. Wayve — $1,05 млрд, Figure — $675 млн.', 'сети и оптика (ANET, FN), электрика ЦОД (ETN, EME)'],
+ ['2025', 'Суверенные мега-раунды', '$258,7 млрд, 61% всего венчура. OpenAI — до $40 млрд, Anthropic F — $13 млрд с QIA и GIC. Инфраструктура — $109,3 млрд.', 'энергосети и стройка (PWR, POWL, AGX), охлаждение (TT, AAON)'],
+ ['2026', 'Концентрация и финансирование «железа»', '$407 млрд за полгода, половина — OpenAI и Anthropic. Nvidia гарантирует и выкупает мощность; MGX и AIP купили Aligned (≈$40 млрд). OpenAI и Anthropic готовят IPO.', 'генерация и газ (CEG, VST, EQT, KMI, WMB — в базе), память (MU)'],
+ ['дальше, гипотеза', 'Физический ИИ', 'SoftBank, Nvidia, Salesforce Ventures и Lightspeed расширяют мандаты на робототехнику. Morgan Stanley: заметная прибыль от гуманоидов через 5–7 лет. Gartner: гуманоиды в фазе запуска, массово — через 10+ лет.', 'приводы и датчики: NOVT, RBC, TKR, RRX, MOG-A, ST, TEL, PH, AME']
+].forEach(([y, h, t, us], i) => {
+  const c = el('div', 'ph' + (i === 4 ? ' next' : '')); c.append(el('em', null, y), el('b', null, h), el('span', null, t), el('div', 'us', 'Наши: ' + us));
+  document.getElementById('phases').append(c);
+});
+
+const TIP = document.getElementById('tip');
+const mText = m => usable(m) ? `$${num(m.fair)} · ${pct(m.gap)} · ${m.fit || 'класс не определён'}${m.stale ? ' · оценка старше года' : ''}` : 'нет оценки';
+function showTip(t, x, y) {
+  const c = CO[t]; TIP.textContent = '';
+  const h = el('div'); h.append(el('b', null, t + ' · ' + c.name)); TIP.append(h, el('div', null, c.role + (c.price == null ? '' : ' · цена $' + num(c.price))));
+  [['Industry', 'industry', '--s2'], ['Measured', 'measured', '--s1']].forEach(([n, k, v]) => {
+    const r = el('div'), key = el('span', 'k'); key.style.borderColor = `var(${v})`;
+    r.append(key, el('span', 'v', mText(c[k])), ' ' + n); TIP.append(r);
+  });
+  TIP.append(el('div', null, c.nobase ? 'Нет в нашей базе 2000 компаний' : c.site ? 'Карточка на сайте: клик по тикеру' : 'В базе, на сайте нет'));
+  TIP.hidden = false;
+  const r = TIP.getBoundingClientRect();
+  TIP.style.left = Math.min(x + 14, innerWidth - r.width - 8) + 'px';
+  TIP.style.top = (y + 14 + r.height > innerHeight ? y - r.height - 10 : y + 14) + 'px';
+}
+function drawGaps() {
+  const host = document.getElementById('gapchart'), W = host.clientWidth, NS = 'http://www.w3.org/2000/svg';
+  const narrow = W < 640, L = narrow ? 70 : 230, R = narrow ? 16 : 86, X0 = -1, X1 = 1.2, RH = 22, GH = 30, TOP = 26;
+  const sx = g => L + (Math.max(X0, Math.min(X1, g)) - X0) / (X1 - X0) * (W - L - R);
+  let y = TOP; const rows = [];
+  ORDER.forEach(l => { rows.push({head: l, y}); y += GH; byLayer(l).forEach(t => { rows.push({t, y}); y += RH; }); });
+  const H = y + 8, svg = document.createElementNS(NS, 'svg'), mk = (tag, a, txt) => {
+    const e = document.createElementNS(NS, tag); for (const k in a) e.setAttribute(k, a[k]); if (txt != null) e.textContent = txt; return e; };
+  svg.setAttribute('viewBox', `0 0 ${W} ${H}`); svg.setAttribute('height', H); svg.setAttribute('role', 'img');
+  svg.setAttribute('aria-label', 'Разрыв между справедливой стоимостью DCF и ценой по компаниям');
+  [-1, -.75, -.5, -.25, 0, .25, .5, 1].forEach(g => {
+    if (narrow && [-.75, -.25, .25].includes(g)) return;
+    svg.append(mk('line', {x1: sx(g), x2: sx(g), y1: TOP - 6, y2: H - 6, stroke: g === 0 ? 'var(--ink-3)' : 'var(--rule)', 'stroke-width': g === 0 ? 1.5 : 1}));
+    svg.append(mk('text', {x: sx(g), y: 14, 'text-anchor': 'middle', 'font-size': 11, fill: 'var(--ink-3)'}, g === 0 ? 'цена' : pct(g)));
+  });
+  rows.forEach(r => {
+    if (r.head) {
+      svg.append(mk('rect', {x: 8, y: r.y + 10, width: 4, height: 14, rx: 2, fill: `var(${CATS[r.head][1]})`}));
+      svg.append(mk('text', {x: 18, y: r.y + 21, 'font-size': 13, 'font-weight': 650, fill: 'var(--ink)'}, CATS[r.head][0]));
+      return;
+    }
+    const c = CO[r.t], cy = r.y + RH / 2, g = mk('g', {tabindex: 0}), b = best(r.t);
+    const hit = mk('rect', {x: 0, y: r.y, width: W, height: RH, fill: 'transparent'}); g.append(hit);
+    const lab = mk('text', {x: 18, y: cy + 4, 'font-size': 12, fill: 'var(--ink)'});
+    const tk = mk('tspan', {'font-weight': 650, class: 'tks'}, r.t); lab.append(tk);
+    if (!narrow) lab.append(mk('tspan', {fill: 'var(--ink-2)', dx: 6}, c.name));
+    { const a = mk('a', {href: tkHref(r.t), target: '_blank'}); a.append(lab); g.append(a); if (!c.site) lab.setAttribute('fill', 'var(--ink-3)'); }
+    const ms = ['measured', 'industry'].map(k => c[k]);
+    if (usable(ms[0]) && usable(ms[1])) g.append(mk('line', {x1: sx(ms[0].gap), x2: sx(ms[1].gap), y1: cy, y2: cy, stroke: 'var(--ink-3)', 'stroke-width': 1.5, 'stroke-opacity': .45}));
+    if (usable(c.industry)) { const s = 9, x = sx(c.industry.gap);
+      g.append(mk('rect', {x: x - s / 2, y: cy - s / 2, width: s, height: s, transform: `rotate(45 ${x} ${cy})`, fill: 'var(--s2)', 'fill-opacity': c.industry.stale ? .35 : 1, stroke: 'var(--surface)', 'stroke-width': 2})); }
+    if (usable(c.measured)) g.append(mk('circle', {cx: sx(c.measured.gap), cy, r: 5.5, fill: 'var(--s1)', 'fill-opacity': c.measured.stale ? .35 : 1, stroke: 'var(--surface)', 'stroke-width': 2}));
+    if (!usable(c.measured) && !usable(c.industry)) g.append(mk('text', {x: sx(0) + 6, y: cy + 4, 'font-size': 11, fill: 'var(--ink-3)'}, 'нет оценки'));
+    if (!narrow) g.append(mk('text', {x: W - 12, y: cy + 4, 'text-anchor': 'end', 'font-size': 11.5, fill: 'var(--ink-2)'}, b ? (b.fit === 'gold' ? '◆ gold' : b.fit) + (b.stale ? ' †' : '') : '—'));
+    const on = e => { hit.setAttribute('fill', 'var(--surface-2)'); const p = e.clientX != null ? e : g.getBoundingClientRect(); showTip(r.t, p.clientX ?? p.left + L, p.clientY ?? p.top); };
+    g.addEventListener('pointermove', on); g.addEventListener('focus', on);
+    const off = () => { hit.setAttribute('fill', 'transparent'); TIP.hidden = true; };
+    g.addEventListener('pointerleave', off); g.addEventListener('blur', off);
+    svg.append(g);
+  });
+  host.textContent = ''; host.append(svg);
+}
+(function table() {
+  const t = document.getElementById('tbl'), hr = el('tr');
+  ['Слой', 'Тикер', 'Компания', 'Цена', 'Industry', 'разрыв', 'класс', 'Measured', 'разрыв', 'класс'].forEach(h => hr.append(el('th', null, h)));
+  const th = el('thead'); th.append(hr); t.append(th); const tb = el('tbody');
+  ALL.forEach(k => { const c = CO[k], tr = el('tr'), cell = m => usable(m) ? ['$' + num(m.fair), pct(m.gap), (m.fit || '—') + (m.stale ? ' †' : '')] : ['нет оценки', '', ''];
+    [CATS[c.layer][0], k, c.name + ' — ' + c.role + (c.nobase ? ' (нет в нашей базе)' : c.site ? '' : ' (не на сайте)'), c.price == null ? '—' : '$' + num(c.price), ...cell(c.industry), ...cell(c.measured)].forEach((v, i) => { const td = el('td', null, i === 1 ? null : v); if (i === 1) td.append(tkA(k)); tr.append(td); });
+    tb.append(tr); });
+  t.append(tb);
+})();
+let rz; const redraw = () => { drawLinks(); drawGaps(); };
+addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(redraw, 120); });
+redraw(); document.fonts && document.fonts.ready.then(drawLinks);
+
+
+// ---- Part 2: the barbell ----
+const SV = (tag, a, txt) => { const e = document.createElementNS('http://www.w3.org/2000/svg', tag); for (const k in a) e.setAttribute(k, a[k]); if (txt != null) e.textContent = txt; return e; };
+function tipAt(lines, x, y) {
+  TIP.textContent = '';
+  lines.forEach((l, i) => TIP.append(el(i ? 'div' : 'b', null, l)));
+  TIP.hidden = false;
+  const r = TIP.getBoundingClientRect();
+  TIP.style.left = Math.min(x + 14, innerWidth - r.width - 8) + 'px';
+  TIP.style.top = (y + 14 + r.height > innerHeight ? y - r.height - 10 : y + 14) + 'px';
+}
+function hover(node, lines) {
+  node.addEventListener('pointermove', e => tipAt(lines, e.clientX, e.clientY));
+  node.addEventListener('pointerleave', () => { TIP.hidden = true; });
+  node.setAttribute('tabindex', 0);
+  node.addEventListener('focus', () => { const r = node.getBoundingClientRect(); tipAt(lines, r.left, r.bottom); });
+  node.addEventListener('blur', () => { TIP.hidden = true; });
+}
+// horizontal bars in the page's own style: rows [label, value, text, kind]; kind 'pr' = lighter fill
+function hbars(host, title, rows, max) {
+  const box = el('div');
+  if (host.children.length) box.style.marginTop = '14px';
+  if (title) box.append(el('div', 'colh', title));
+  const wrap = el('div', 'bars'); wrap.style.marginTop = '6px';
+  rows.forEach(([l, v, s, kind]) => {
+    const row = el('div', 'bar'), tr = el('div', 'track'), f = el('div', 'fill' + (kind === 'pr' ? ' pr' : '')), w = Math.max(.6, v / max * 100), val = el('span', 'val', s);
+    row.style.gridTemplateColumns = 'minmax(120px,220px) 1fr';
+    if (kind === 'alt') f.style.background = 'var(--s2)';
+    f.style.width = w + '%';
+    if (w > 72) { val.style.right = '8px'; } else { val.style.left = `calc(${w}% + 8px)`; }
+    tr.append(f, val); row.append(el('div', 'lbl', l), tr); wrap.append(row);
+    hover(row, [l, s]);
+  });
+  box.append(wrap); host.append(box);
+}
+const gapOf = t => { const b = best(t); return b ? b.gap : null; };
+const median = xs => { const s = xs.filter(x => x != null).sort((a, b) => a - b); return s.length ? (s.length % 2 ? s[(s.length - 1) / 2] : (s[s.length / 2 - 1] + s[s.length / 2]) / 2) : null; };
+const PROXY = ['MSFT', 'AMZN', 'GOOG', 'META', 'ORCL', 'NVDA'];
+const GROUPS = [['Публичный доступ к разработчикам моделей', PROXY], ['Чипы и память', byLayer('chips').filter(t => t !== 'NVDA')], ['Сети, оптика, разъёмы', byLayer('net')],
+  ['Электрика и охлаждение ЦОД', byLayer('dc')], ['Энергия: газ, атом, сети', byLayer('power')], ['«Тело» робота', byLayer('body')]];
+
+(function barbell() {
+  const host = document.getElementById('fig-barbell'), W = 1000, H = 470;
+  const svg = SV('svg', {viewBox: `0 0 ${W} ${H}`, class: 'fig', role: 'img', 'aria-label': 'Разработчики моделей и инфраструктура на одном потоке капитала'});
+  const T = (x, y, s, o = {}) => svg.append(SV('text', Object.assign({x, y, 'font-size': 13, fill: 'var(--ink)'}, o), s));
+  // funds on top, with a line down to each plate
+  const funds = [['SoftBank', '≈13% OpenAI · SB Energy'], ['Nvidia', '$30 млрд в OpenAI · гарантии'], ['MGX, GIC, QIA, Temasek', 'Anthropic · ЦОД Aligned'], ['Coatue, Lightspeed, ICONIQ', 'раунды Anthropic']];
+  funds.forEach(([n, s], i) => {
+    const x = 175 + i * 215;
+    svg.append(SV('rect', {x: x - 95, y: 10, width: 190, height: 46, rx: 8, fill: 'var(--surface-2)', stroke: 'var(--rule)'}));
+    T(x, 30, n, {'text-anchor': 'middle', 'font-weight': 650});
+    T(x, 47, s, {'text-anchor': 'middle', 'font-size': 11.5, fill: 'var(--ink-2)'});
+    [[150, 'var(--s7)'], [860, 'var(--s4)']].forEach(([px, c]) => svg.append(SV('path', {d: `M${x},56 C${x},110 ${px},96 ${px},132`, fill: 'none', stroke: c, 'stroke-width': 1.6, 'stroke-opacity': .5})));
+  });
+  // the bar
+  svg.append(SV('rect', {x: 232, y: 236, width: 496, height: 12, rx: 6, fill: 'var(--ink-3)'}));
+  T(500, 226, 'один поток капитала', {'text-anchor': 'middle', 'font-weight': 650});
+  T(500, 270, '$407 млрд венчура за 1-е полугодие 2026 · обязательства и гарантии', {'text-anchor': 'middle', 'font-size': 12, fill: 'var(--ink-2)'});
+  // left plate: the labs
+  svg.append(SV('rect', {x: 70, y: 132, width: 160, height: 220, rx: 14, fill: 'var(--s7)', 'fill-opacity': .14, stroke: 'var(--s7)', 'stroke-width': 2}));
+  T(150, 160, 'Разработчики моделей', {'text-anchor': 'middle', 'font-weight': 700, 'font-size': 14});
+  [['OpenAI', '$852 млрд'], ['Anthropic', '$965 млрд'], ['xAI', 'раунд $20 млрд']].forEach(([n, v], i) => {
+    T(150, 192 + i * 42, n, {'text-anchor': 'middle', 'font-weight': 650}); T(150, 209 + i * 42, v, {'text-anchor': 'middle', 'font-size': 12, fill: 'var(--ink-2)'});
+  });
+  T(150, 336, 'на бирже нет', {'text-anchor': 'middle', 'font-size': 12, fill: 'var(--ink-3)'});
+  // right plate: infrastructure, three slices with our tickers
+  const slices = [['Энергия и сети', ['CEG', 'VST', 'PWR', 'ETN', 'EME', 'POWL', 'AGX']], ['Чипы', ['NVDA', 'AVGO', 'AMAT', 'LRCX', 'KLAC']], ['Память и связь', ['MU', 'ANET', 'APH', 'FN']]];
+  svg.append(SV('rect', {x: 730, y: 132, width: 262, height: 232, rx: 14, fill: 'var(--s4)', 'fill-opacity': .14, stroke: 'var(--s4)', 'stroke-width': 2}));
+  T(861, 160, 'Инфраструктура', {'text-anchor': 'middle', 'font-weight': 700, 'font-size': 15});
+  let sy0 = 184;
+  slices.forEach(([n, tks]) => {
+    T(744, sy0, n, {'font-weight': 650, 'font-size': 12.5});
+    for (let k = 0; k < tks.length; k += 3) svg.append(tkSvgLine(SV('text', {x: 744, y: sy0 + 16 + (k / 3) * 14, 'font-size': 11, fill: 'var(--ink-2)'}),
+      tks.slice(k, k + 3).map(t => [t, ''])));
+    sy0 += 26 + Math.ceil(tks.length / 3) * 14;
+  });
+  // handles: the public way into the left plate
+  const hx = 150, hy = 372;
+  svg.append(SV('rect', {x: 20, y: hy, width: 270, height: 86, rx: 10, fill: 'var(--surface-2)', stroke: 'var(--rule)'}));
+  T(hx, hy + 20, 'Публичный доступ к ним', {'text-anchor': 'middle', 'font-weight': 650});
+  [[PROXY.slice(0, 3), 42], [PROXY.slice(3), 60]].forEach(([ts, dy]) => svg.append(tkSvgLine(SV('text', {x: hx, y: hy + dy, 'text-anchor': 'middle', 'font-size': 11.5, fill: 'var(--ink-2)'}),
+    ts.map(t => [t, '']))));
+  T(hx, hy + 78, 'доли в OpenAI и Anthropic, облака', {'text-anchor': 'middle', 'font-size': 11.5, fill: 'var(--ink-3)'});
+  // the order: labs pay for projects that infrastructure builds (Ohio)
+  svg.append(SV('rect', {x: 395, y: 312, width: 210, height: 92, rx: 10, fill: 'var(--surface)', stroke: 'var(--ink-3)', 'stroke-width': 1.5}));
+  T(500, 334, 'Заказ: кампус в Огайо', {'text-anchor': 'middle', 'font-weight': 650});
+  T(500, 353, '8 ГВт, аренда на 20 лет', {'text-anchor': 'middle', 'font-size': 12, fill: 'var(--ink-2)'});
+  T(500, 370, 'гарантия Nvidia до $105 млрд', {'text-anchor': 'middle', 'font-size': 12, fill: 'var(--ink-2)'});
+  T(500, 387, 'стоимость ≈ $0,4–0,5 трлн (оценка)', {'text-anchor': 'middle', 'font-size': 12, fill: 'var(--ink-2)'});
+  const arrow = (d, c) => { svg.append(SV('path', {d, fill: 'none', stroke: c, 'stroke-width': 2, 'marker-end': 'url(#ah)'})); };
+  const defs = SV('defs'); const m = SV('marker', {id: 'ah', viewBox: '0 0 10 10', refX: 9, refY: 5, markerWidth: 7, markerHeight: 7, orient: 'auto-start-reverse'});
+  m.append(SV('path', {d: 'M0,0 L10,5 L0,10 z', fill: 'var(--ink-3)'})); defs.append(m); svg.prepend(defs);
+  arrow('M230,320 C300,330 330,350 393,355', 'var(--ink-3)');
+  arrow('M607,355 C660,350 690,340 728,330', 'var(--ink-3)');
+  T(300, 306, 'платит', {'font-size': 11.5, fill: 'var(--ink-3)'}); T(612, 318, 'строит и поставляет', {'font-size': 11.5, fill: 'var(--ink-3)'});
+  host.append(svg);
+})();
+
+(function valuations() {
+  const host = document.getElementById('fig-vals'), W = 1000, H = 300, L = 60, R = 140, TOP = 20, B = 40;
+  const t0 = 2024.6, t1 = 2026.6, sx = t => L + (t - t0) / (t1 - t0) * (W - L - R), sy = v => TOP + (1 - v / 1000) * (H - TOP - B);
+  const svg = SV('svg', {viewBox: `0 0 ${W} ${H}`, class: 'fig', role: 'img', 'aria-label': 'Оценки OpenAI и Anthropic после раундов'});
+  [0, 250, 500, 750, 1000].forEach(v => { svg.append(SV('line', {x1: L, x2: W - R, y1: sy(v), y2: sy(v), stroke: 'var(--rule)'}));
+    svg.append(SV('text', {x: L - 8, y: sy(v) + 4, 'text-anchor': 'end', 'font-size': 11, fill: 'var(--ink-3)'}, '$' + v + (v ? ' млрд' : ''))); });
+  [[2024.75, 'окт 2024'], [2025.17, 'мар 2025'], [2025.67, 'сен 2025'], [2026.12, 'фев 2026'], [2026.4, 'май 2026']].forEach(([t, s]) =>
+    svg.append(SV('text', {x: sx(t), y: H - 14, 'text-anchor': 'middle', 'font-size': 11, fill: 'var(--ink-3)'}, s)));
+  const series = [['OpenAI', 'var(--s1)', [[2024.75, 157, 'раунд $6,6 млрд'], [2025.17, 300, 'раунд до $40 млрд, лид SoftBank'], [2026.12, 852, 'раунд $122 млрд']]],
+                  ['Anthropic', 'var(--s2)', [[2025.67, 183, 'серия F $13 млрд'], [2026.12, 380, 'серия G $30 млрд'], [2026.4, 965, 'серия H $65 млрд']]]];
+  series.forEach(([n, c, pts]) => {
+    svg.append(SV('polyline', {points: pts.map(p => sx(p[0]) + ',' + sy(p[1])).join(' '), fill: 'none', stroke: c, 'stroke-width': 2}));
+    pts.forEach(p => { const g = SV('g'); g.append(SV('circle', {cx: sx(p[0]), cy: sy(p[1]), r: 12, fill: 'transparent'}),
+      SV('circle', {cx: sx(p[0]), cy: sy(p[1]), r: 5, fill: c, stroke: 'var(--surface)', 'stroke-width': 2})); hover(g, [n + ': $' + p[1] + ' млрд', p[2]]); svg.append(g); });
+    const e = pts[pts.length - 1];
+    svg.append(SV('text', {x: sx(e[0]) + 10, y: sy(e[1]) + (n === 'OpenAI' ? 12 : 4), 'font-size': 13, 'font-weight': 650, fill: 'var(--ink)'}, `${n} $${e[1]} млрд`));
+  });
+  svg.append(SV('text', {x: sx(2024.68), y: sy(930), 'font-size': 12.5, fill: 'var(--ink-2)'}, 'Anthropic: ×5,3 за 8 месяцев (сен 2025 → май 2026)'));
+  svg.append(SV('text', {x: sx(2024.68), y: sy(860), 'font-size': 12.5, fill: 'var(--ink-2)'}, 'OpenAI: ×2,8 за 11 месяцев (мар 2025 → фев 2026)'));
+  host.append(svg);
+})();
+
+(function groups() {
+  const host = document.getElementById('fig-groups');
+  if (!host) return;          // the figure was taken out (owner 03.10.2026: the DCF gaps scare)
+  const rows = GROUPS.map(([n, tks]) => [n, median(tks.map(gapOf)), tks]);
+  const wrap = el('div', 'bars');
+  rows.forEach(([n, m, tks]) => {
+    const row = el('div', 'bar'), tr = el('div', 'track'), f = el('div', 'fill'), w = Math.abs(m) * 100, val = el('span', 'val', pct(m));
+    row.style.gridTemplateColumns = 'minmax(150px,260px) 1fr';
+    f.style.left = 'auto'; f.style.right = '0'; f.style.borderRadius = '4px 0 0 4px'; f.style.width = w + '%';
+    if (n.startsWith('Публичный')) f.style.background = 'var(--s7)';
+    val.style.right = `calc(${w}% + 8px)`;
+    tr.style.borderRight = '1.5px solid var(--ink-3)';
+    tr.append(f, val); row.append(el('div', 'lbl', n + ' · ' + tks.length), tr); wrap.append(row);
+    hover(row, [n + ': медиана ' + pct(m), tks.map(t => t + ' ' + (gapOf(t) == null ? 'нет оценки' : pct(gapOf(t)))).join(', ')]);
+  });
+  const ax = el('div', 'legend'); ax.append(el('span', null, 'ноль справа = цена; полоса влево — насколько наша оценка ниже цены'));
+  host.append(wrap, ax);
+})();
+
+(function ohio() {
+  hbars(document.getElementById('fig-ohio-power'), 'Электричество, ТВт·ч в год', [
+    ['Кампус в Огайо, 8 ГВт при полной загрузке', 70, '≈70 ТВт·ч', 'alt'], ['Все ЦОД США, 2023 год', 176, '176 ТВт·ч']], 176);
+  hbars(document.getElementById('fig-ohio-power'), 'Новая генерация, ГВт', [
+    ['Для кампуса (SB Energy, план)', 10, '≥10 ГВт', 'alt'], ['Вся новая мощность США за 2025 год', 53, '53 ГВт']], 53);
+  hbars(document.getElementById('fig-ohio-money'), 'Деньги, $ млрд', [
+    ['Кампус в Огайо целиком (оценка)', 450, '$400–500 млрд', 'alt'], ['Венчур в ИИ за 1-е полугодие 2026', 407, '$407 млрд'],
+    ['Венчур в ИИ за весь 2025 год', 259, '$259 млрд'], ['Гарантия Nvidia по аренде кампуса', 105, 'до $105 млрд', 'pr'],
+    ['Вложение Nvidia в SB Energy', 1.5, '$1,5 млрд']], 500);
+})();
+
+
+(function relay() {
+  const host = document.getElementById('fig-relay'), W = 1000, H = 330, L = 30, R = 20, Y0 = 2022, Y1 = 2035;
+  const sx = y => L + (y - Y0) / (Y1 - Y0) * (W - L - R), TOPB = 150, BASE = 300;
+  const svg = SV('svg', {viewBox: `0 0 ${W} ${H}`, class: 'fig', role: 'img', 'aria-label': 'Волны технологий ИИ и спрос на инфраструктуру'});
+  const wave = (peak, rise, h) => y => h * Math.exp(-(((y - peak) / rise) ** 2));
+  const waves = [['Генеративный ИИ', 'var(--s1)', wave(2023.6, 1.0, 1), 2023.6], ['ИИ-агенты', 'var(--s2)', wave(2026.0, 1.0, .92), 2026.0], ['Физический ИИ', 'var(--s5)', wave(2028.6, 1.4, .85), 2028.6]];
+  // expectations (top band)
+  waves.forEach(([n, c, f, pk]) => {
+    let d = ''; for (let i = 0; i <= 260; i++) { const y = Y0 + i / 260 * (Y1 - Y0); d += (i ? 'L' : 'M') + sx(y).toFixed(1) + ',' + (TOPB - f(y) * 110).toFixed(1); }
+    svg.append(SV('path', {d, fill: 'none', stroke: c, 'stroke-width': 2}));
+    svg.append(SV('text', {x: sx(pk), y: TOPB - f(pk) * 110 - 8, 'text-anchor': 'middle', 'font-size': 12.5, 'font-weight': 650, fill: 'var(--ink)'}, n));
+  });
+  svg.append(SV('text', {x: L, y: 18, 'font-size': 12, fill: 'var(--ink-3)'}, 'ожидания (кривые Gartner, схематично)'));
+  // infrastructure demand = money that follows each wave with a lag, summed
+  const LAG = [.8, .8, 2.6], spend = y => .1 + .045 * (y - 2022) + waves.reduce((s, [, , f], i) => s + (i === 2 ? .5 : .42) * f(y - LAG[i]), 0);
+  let a = `M${sx(Y0)},${BASE}`; for (let i = 0; i <= 260; i++) { const y = Y0 + i / 260 * (Y1 - Y0); a += `L${sx(y).toFixed(1)},${(BASE - spend(y) * 100).toFixed(1)}`; }
+  a += `L${sx(Y1)},${BASE}Z`;
+  svg.append(SV('path', {d: a, fill: 'var(--s4)', 'fill-opacity': .28, stroke: 'var(--s4)', 'stroke-width': 1.5}));
+  svg.append(SV('text', {x: L, y: 176, 'font-size': 12, fill: 'var(--ink-3)'}, 'спрос на инфраструктуру: растущая база (работа моделей) плюс деньги каждой волны с запаздыванием'));
+  svg.append(SV('line', {x1: L, x2: W - R, y1: BASE, y2: BASE, stroke: 'var(--rule)'}));
+  [2022, 2024, 2026, 2028, 2030, 2032, 2034].forEach(y => svg.append(SV('text', {x: sx(y), y: BASE + 18, 'text-anchor': 'middle', 'font-size': 11, fill: 'var(--ink-3)'}, y)));
+  // today and the risk window between waves
+  svg.append(SV('rect', {x: sx(2027.5), y: 24, width: sx(2030.2) - sx(2027.5), height: BASE - 24, fill: 'var(--s2)', 'fill-opacity': .07}));
+  svg.append(SV('text', {x: (sx(2027.5) + sx(2030.2)) / 2, y: 268, 'text-anchor': 'middle', 'font-size': 12.5, 'font-weight': 650, fill: 'var(--ink)'}, 'окно риска'));
+  svg.append(SV('text', {x: (sx(2027.5) + sx(2030.2)) / 2, y: 282, 'text-anchor': 'middle', 'font-size': 11, fill: 'var(--ink-2)'}, 'деньги агентов спадают,'));
+  svg.append(SV('text', {x: (sx(2027.5) + sx(2030.2)) / 2, y: 295, 'text-anchor': 'middle', 'font-size': 11, fill: 'var(--ink-2)'}, 'деньги роботов ещё не пришли'));
+  svg.append(SV('line', {x1: sx(2026.75), x2: sx(2026.75), y1: 24, y2: BASE, stroke: 'var(--ink-3)', 'stroke-width': 1.5}));
+  svg.append(SV('text', {x: sx(2026.75) + 5, y: BASE - 8, 'font-size': 11.5, fill: 'var(--ink-2)'}, 'сегодня'));
+  host.append(svg);
+})();
+
+(function leopold() {
+  const host = document.getElementById('fig-leopold'), W = 1000, H = 290, L = 70, R = 30, TOP = 20, B = 40, Y0 = 2023.5, Y1 = 2032.5;
+  const sx = y => L + (y - Y0) / (Y1 - Y0) * (W - L - R), ly = g => TOP + (1 - (Math.log10(g) + 1) / 3.2) * (H - TOP - B);
+  const svg = SV('svg', {viewBox: `0 0 ${W} ${H}`, class: 'fig', role: 'img', 'aria-label': 'Прогноз Ашенбреннера по размеру кластера и факты'});
+  [0.1, 1, 10, 100].forEach(g => { svg.append(SV('line', {x1: L, x2: W - R, y1: ly(g), y2: ly(g), stroke: 'var(--rule)'}));
+    svg.append(SV('text', {x: L - 8, y: ly(g) + 4, 'text-anchor': 'end', 'font-size': 11, fill: 'var(--ink-3)'}, (g < 1 ? '0,1' : g) + ' ГВт')); });
+  [2024, 2026, 2028, 2030, 2032].forEach(y => svg.append(SV('text', {x: sx(y), y: H - 14, 'text-anchor': 'middle', 'font-size': 11, fill: 'var(--ink-3)'}, y)));
+  const fc = [[2024, .1], [2026, 1], [2028, 10], [2030, 100]];
+  svg.append(SV('polyline', {points: fc.map(p => sx(p[0]) + ',' + ly(p[1])).join(' '), fill: 'none', stroke: 'var(--s1)', 'stroke-width': 2, 'stroke-opacity': .5}));
+  fc.forEach(([y, g]) => { const c = SV('g'); c.append(SV('circle', {cx: sx(y), cy: ly(g), r: 12, fill: 'transparent'}), SV('circle', {cx: sx(y), cy: ly(g), r: 6, fill: 'var(--surface)', stroke: 'var(--s1)', 'stroke-width': 2}));
+    hover(c, ['Прогноз Ашенбреннера (2024)', y + ': крупнейший кластер ≈ ' + (g < 1 ? '0,1' : g) + ' ГВт']); svg.append(c); });
+  svg.append(SV('text', {x: sx(2024) - 10, y: ly(60), 'font-size': 12.5, 'font-weight': 650, fill: 'var(--ink)'}, 'прогноз 2024 года: ×10 каждые 2 года'));
+  const facts = [[2026.75, .946, 'Colossus 2 (xAI): 946 МВт — попадание', 'start'], [2032, 8, 'Огайо (OpenAI): 8 ГВт к 2032 году', 'end']];
+  facts.forEach(([y, g, s, anc]) => { const c = SV('g'); c.append(SV('circle', {cx: sx(y), cy: ly(g), r: 12, fill: 'transparent'}), SV('circle', {cx: sx(y), cy: ly(g), r: 6.5, fill: 'var(--s2)', stroke: 'var(--surface)', 'stroke-width': 2}));
+    hover(c, ['Факт', s]); svg.append(c);
+    svg.append(SV('text', {x: anc === 'start' ? sx(y) + 12 : sx(y) - 12, y: anc === 'start' ? ly(g) + 4 : ly(g) + 22, 'text-anchor': anc, 'font-size': 12, fill: 'var(--ink)'}, s)); });
+  host.append(svg);
+  const lg = el('div', 'legend'); lg.innerHTML = '<span><i style="background:var(--surface);border:2px solid var(--s1);border-radius:50%"></i>прогноз Ашенбреннера, июнь 2024</span><span><i style="background:var(--s2);border-radius:50%"></i>факт и объявленный проект</span>';
+  host.append(lg);
+})();
+
+(function energy() {
+  const host = document.getElementById('fig-energy'), grid = el('div'); grid.style.cssText = 'display:grid;grid-template-columns:1fr;gap:6px;max-width:900px';
+  const a = el('div'), b = el('div'), c = el('div'); grid.append(a, b, c); host.append(grid);
+  hbars(a, 'Прирост спроса ЦОД к 2030 году, % всей выработки страны', [['США: +240 ТВт·ч', 5.4, '≈5,4%', 'alt'], ['Китай: +175 ТВт·ч', 1.8, '≈1,8%']], 5.4);
+  hbars(b, 'Новая мощность за 2025 год на одного жителя, Вт', [['Китай: только ветер и солнце', 306, 'больше 300 Вт', 'alt'], ['США: вся новая мощность', 156, '≈156 Вт']], 306);
+  hbars(c, 'Прирост ЦОД к 2030 году (средняя нагрузка) в % от новой мощности за один 2025 год', [
+    ['США: 27 ГВт к 53 ГВт', 52, '≈52% — половина годового ввода', 'alt'], ['Китай: 20 ГВт к 430+ ГВт', 4.7, 'меньше 5%']], 52);
+})();
+
+(function workforce() {
+  const host = document.getElementById('fig-workforce'), W = 1000, H = 330, L = 50, R = 90, TOP = 20, B = 36, Y0 = 2000, Y1 = 2075;
+  const sx = y => L + (y - Y0) / (Y1 - Y0) * (W - L - R), sy = v => TOP + (1 - (v - 30) / (125 - 30)) * (H - TOP - B);
+  const svg = SV('svg', {viewBox: `0 0 ${W} ${H}`, class: 'fig', role: 'img', 'aria-label': 'Население 15–64 лет по прогнозу ООН, 2025 = 100'});
+  [40, 60, 80, 100, 120].forEach(v => { svg.append(SV('line', {x1: L, x2: W - R, y1: sy(v), y2: sy(v), stroke: v === 100 ? 'var(--ink-3)' : 'var(--rule)'}));
+    svg.append(SV('text', {x: L - 8, y: sy(v) + 4, 'text-anchor': 'end', 'font-size': 11, fill: 'var(--ink-3)'}, v)); });
+  [2000, 2025, 2050, 2075].forEach(y => svg.append(SV('text', {x: sx(y), y: H - 12, 'text-anchor': 'middle', 'font-size': 11.5, fill: 'var(--ink-3)'}, y)));
+  svg.append(SV('line', {x1: sx(2025), x2: sx(2025), y1: TOP, y2: H - B, stroke: 'var(--ink-3)', 'stroke-width': 1}));
+  svg.append(SV('text', {x: sx(2025) + 5, y: TOP + 10, 'font-size': 11, fill: 'var(--ink-2)'}, 'дальше — прогноз'));
+  const order = ['США', 'Индия', 'Германия', 'Япония', 'Корея', 'Китай'];
+  const ends = [];
+  order.forEach(c => {
+    const pts = UNWPP_IDX[c], main = c === 'Китай', col = main ? 'var(--s2)' : 'var(--ink-3)';
+    svg.append(SV('polyline', {points: pts.map(([y, v]) => sx(y) + ',' + sy(v)).join(' '), fill: 'none', stroke: col, 'stroke-width': main ? 3 : 1.6, 'stroke-opacity': main ? 1 : .75}));
+    pts.forEach(([y, v]) => { const g = SV('g'); g.append(SV('circle', {cx: sx(y), cy: sy(v), r: 9, fill: 'transparent'}));
+      if (main && (y === 2050 || y === 2075)) g.append(SV('circle', {cx: sx(y), cy: sy(v), r: 4.5, fill: col, stroke: 'var(--surface)', 'stroke-width': 2}));
+      hover(g, [c + ', ' + y + ': ' + num(v, 1), 'население 15–64 лет, 2025 = 100']); svg.append(g); });
+    const last = pts[pts.length - 1]; ends.push([c, last[1], main]);
+  });
+  // end labels, nudged apart
+  ends.sort((a, b) => b[1] - a[1]); let prev = -1e9;
+  ends.forEach(([c, v, main]) => { let y = sy(v) + 4; if (y - prev < 14) y = prev + 14; prev = y;
+    svg.append(SV('text', {x: W - R + 8, y, 'font-size': main ? 13 : 12, 'font-weight': main ? 700 : 400, fill: main ? 'var(--ink)' : 'var(--ink-2)'}, c + ' ' + Math.round(v))); });
+  const c50 = UNWPP_IDX['Китай'].find(p => p[0] === 2050)[1];
+  svg.append(SV('text', {x: sx(2050) + 8, y: sy(c50) + 18, 'font-size': 12.5, 'font-weight': 650, fill: 'var(--ink)'}, 'Китай 2050: ' + Math.round(c50) + ' (−241 млн человек)'));
+  host.append(svg);
+})();
+
+(function dependency() {
+  const host = document.getElementById('fig-dependency'), W = 480, H = 270, L = 90, R = 30, TOP = 34, sx = v => L + v / 80 * (W - L - R);
+  const svg = SV('svg', {viewBox: `0 0 ${W} ${H}`, class: 'fig', role: 'img', 'aria-label': 'Пожилых на 100 человек рабочего возраста, 2025 и 2050'});
+  svg.append(SV('text', {x: 0, y: 14, 'font-size': 12, fill: 'var(--ink-3)'}, 'Людей 65+ на 100 человек 15–64 лет: 2025 → 2050'));
+  [0, 20, 40, 60, 80].forEach(v => { svg.append(SV('line', {x1: sx(v), x2: sx(v), y1: TOP - 6, y2: H - 22, stroke: 'var(--rule)'}));
+    svg.append(SV('text', {x: sx(v), y: H - 6, 'text-anchor': 'middle', 'font-size': 11, fill: 'var(--ink-3)'}, v)); });
+  Object.entries(UNWPP_DEP).sort((a, b) => b[1][1] - a[1][1]).forEach(([c, [a, b2]], i) => {
+    const y = TOP + 10 + i * 34, main = c === 'Китай', col = main ? 'var(--s2)' : 'var(--s1)', g = SV('g');
+    g.append(SV('rect', {x: 0, y: y - 14, width: W, height: 28, fill: 'transparent'}));
+    g.append(SV('text', {x: L - 10, y: y + 4, 'text-anchor': 'end', 'font-size': 12.5, 'font-weight': main ? 700 : 400, fill: 'var(--ink)'}, c));
+    g.append(SV('line', {x1: sx(a), x2: sx(b2), y1: y, y2: y, stroke: col, 'stroke-width': 2, 'stroke-opacity': .5}));
+    g.append(SV('circle', {cx: sx(a), cy: y, r: 5, fill: 'var(--surface)', stroke: col, 'stroke-width': 2}));
+    g.append(SV('circle', {cx: sx(b2), cy: y, r: 6, fill: col, stroke: 'var(--surface)', 'stroke-width': 2}));
+    g.append(SV('text', {x: sx(b2) + 10, y: y + 4, 'font-size': 12, 'font-weight': 650, fill: 'var(--ink)'}, a + ' → ' + b2));
+    hover(g, [c + ': ' + a + ' в 2025 году → ' + b2 + ' в 2050-м', 'людей 65+ на 100 человек 15–64 лет']); svg.append(g); });
+  host.append(svg);
+})();
+
+(function robots() {
+  const host = document.getElementById('fig-robots');
+  hbars(host, 'Установлено промышленных роботов в 2024 году, тыс.', [['Китай', 295, '295 тыс. · 54%', 'alt'], ['Весь остальной мир', 247, '247 тыс.']], 295);
+  hbars(host, 'Роботов в работе, млн', [['Китай', 2.03, '2,03 млн', 'alt'], ['Япония', .45, '≈0,45 млн']], 2.03);
+  hbars(host, 'Доля китайских производителей на рынке Китая', [['2024', 57, '57%', 'alt'], ['≈ десять лет назад', 28, '≈28%']], 100);
+})();
+
+(function reasons() {
+  const R = [
+    ['1. Демография', 'К 2050 году людей 15–64 лет станет на 241 млн меньше (−24%), к 2075-му — почти вдвое меньше. На 100 работающих придётся 52 пожилых против 21 сейчас. Рождений уже вдвое меньше, чем в 2016 году.', 'ООН, World Population Prospects 2024; НБС Китая'],
+    ['2. Иммиграция — не китайский путь', 'Мигрантов в Китае меньше 0,1% населения. Массово завозить людей страна не готова ни политически, ни культурно, поэтому остаётся автоматизация.', 'ООН, данные о мигрантах'],
+    ['3. Уход за пожилыми', '323 млн человек старше 60 лет. Сиделок и медсестёр людьми на такой масштаб не набрать; роботы-помощники — единственный масштабируемый ответ.', 'НБС Китая, 2026'],
+    ['4. Цена труда и бегство фабрик', 'Зарплаты в Китае давно выше, чем во Вьетнаме и Индии. Чтобы фабрики не уходили, нужно, чтобы на них работало меньше людей.', 'вывод'],
+    ['5. Цепочка поставок электромобилей = цепочка роботов', 'Моторы, батареи, редукторы, датчики, силовая электроника — то же, что в электромобиле. Китай уже доминирует в этих звеньях, поэтому роботы дешевеют быстрее всего у него.', 'вывод; Morgan Stanley Humanoid 100'],
+    ['6. У роботов появился «мозг»', 'Те же модели, что двигают генеративный ИИ, теперь учат роботов: зрение, язык и действие в одной модели. Деньги первой волны финансируют третью.', 'вывод'],
+    ['7. Промышленная политика', 'Гуманоиды и «воплощённый интеллект» — государственные приоритеты Китая: отраслевые программы и упоминание в докладе правительства 2025 года.', 'Минпромторг КНР, 2023; доклад правительства, 2025'],
+    ['8. Опасная работа и оборона', 'Шахты, химия, стройка, работа на высоте — и беспилотные системы в армии. Здесь робот выгоден даже при высокой цене.', 'вывод']];
+  R.forEach(([h, t, s]) => { const c = el('div', 'reason'); c.append(el('b', null, h), el('span', null, t), el('div', null, '')); c.lastChild.append(el('i', null, s)); document.getElementById('reasons').append(c); });
+})();
+
+(function portfolio() {
+  const t = document.getElementById('port'), hr = el('tr');
+  ['Опора', 'Наши бумаги', 'Что держит', 'Главный риск'].forEach(h => hr.append(el('th', null, h)));
+  const th = el('thead'); th.append(hr); t.append(th); const tb = el('tbody');
+  const g = tks => tks.map(x => x + ' ' + (gapOf(x) == null ? '—' : pct(gapOf(x)))).join(', ');
+  [['Разработчики моделей: публичный доступ', PROXY, 'доли в OpenAI и Anthropic, облака, по которым идёт аренда вычислений', 'IPO лабораторий ниже последних оценок'],
+   ['Инфраструктура: чипы и память', byLayer('chips'), 'выручка от заказов облаков и лабораторий', 'цикл памяти: маржа уже рекордная'],
+   ['Инфраструктура: сети и связь', byLayer('net'), 'стройка новых кластеров', 'пауза в стройке кластеров'],
+   ['Инфраструктура: электрика и охлаждение ЦОД', byLayer('dc'), 'дефицит трансформаторов и мощности', 'пересмотр прогнозов нагрузки вниз (PJM)'],
+   ['Инфраструктура: энергия', byLayer('power'), 'газ и атом под ЦОД, аукционы мощности', 'нагрузка ЦОД ниже заявок; регуляторы'],
+   ['Следующая волна: «тело» робота', byLayer('body'), 'приводы — половина себестоимости робота', 'китайские поставщики дешевле; массово — 10+ лет']
+  ].forEach(([n, tks, hold, risk]) => { const tr = el('tr'); [n, null, hold, risk].forEach((v, i) => { const td = el('td', null, v); if (i === 1) tks.forEach((x, j) => { if (j) td.append(', '); td.append(tkA(x)); }); td.style.whiteSpace = 'normal'; tr.append(td); }); tb.append(tr); });
+  t.append(tb);
+})();
+
+(function signals() {
+  const S = [
+    ['IPO OpenAI и Anthropic', 'Цена размещения против последних оценок $852 и $965 млрд. Размещение ниже — первый признак, что поток капитала слабеет.', 'когда: по мере подачи документов'],
+    ['Прогнозы нагрузки PJM', 'Следующий пересмотр прогноза нагрузки и аукцион мощности. Снижение ударит по энергетике и электрике сильнее всего.', 'когда: публикации PJM'],
+    ['Исполнение контрактов', 'Платят ли покупатели по аренде и выкупу мощности по графику: гарантии Nvidia и портфели заказов CoreWeave и Micron превращаются в выручку.', 'когда: квартальные отчёты 10-Q'],
+    ['Закрытие агентных проектов', 'Gartner ждёт закрытия больше 40% агентных проектов к концу 2027 года. Если быстрее — окно риска наступит раньше.', 'когда: опросы Gartner'],
+    ['Установки роботов в Китае', 'Рост установок и доля китайских производителей. Это скорость третьей волны и конкуренция для наших поставщиков приводов.', 'когда: IFR, сентябрь']];
+  S.forEach(([h, t, s]) => { const c = el('div', 'reason'); c.append(el('b', null, h), el('span', null, t), el('div', null, '')); c.lastChild.append(el('i', null, s)); document.getElementById('signals').append(c); });
+})();
+addEventListener('resize', () => { /* figures use viewBox; nothing to redraw */ });
+
+// a small picture under each conclusion (the last one already carries the Gartner curve)
+(function ideasViz() {
+  const V = (tag, a, txt) => { const e = document.createElementNS('http://www.w3.org/2000/svg', tag); for (const k in a) e.setAttribute(k, a[k]); if (txt != null) e.textContent = txt; return e; };
+  const fig = (W, H, label) => { const s = V('svg', {viewBox: `0 0 ${W} ${H}`, role: 'img', 'aria-label': label}); s.style.cssText = 'display:block;width:100%;margin-top:12px'; return s; };
+  const txt = (s, x, y, t, o = {}) => s.append(V('text', Object.assign({x, y, 'font-size': 13, fill: 'var(--ink)'}, o), t));
+  const box = (s, x, y, w, h, o = {}) => s.append(V('rect', Object.assign({x, y, width: w, height: h, rx: 10, fill: 'var(--surface-2)', stroke: 'var(--rule)'}, o)));
+  const defs = (s, id, c) => { const d = V('defs'), m = V('marker', {id, viewBox: '0 0 10 10', refX: 9, refY: 5, markerWidth: 7, markerHeight: 7, orient: 'auto-start-reverse'});
+    m.append(V('path', {d: 'M0,0 L10,5 L0,10 z', fill: c})); d.append(m); s.append(d); };
+  const arrow = (s, d, id, c = 'var(--ink-3)') => s.append(V('path', {d, fill: 'none', stroke: c, 'stroke-width': 2, 'marker-end': `url(#${id})`}));
+  const li = [...document.querySelectorAll('#ideas li')];
+  const add = (i, svg, note) => { if (!li[i]) return; li[i].append(svg); if (note) li[i].append(el('div', 'note', note)); };
+
+  // 1. money comes in at the top, revenue shows up at the bottom
+  { const s = fig(1000, 150, 'Деньги идут от инвесторов через частные компании к нашим публичным'); defs(s, 'ia1', 'var(--ink-3)');
+    [[10, 'Кто даёт деньги', 'SoftBank, Nvidia, суверенные фонды,', 'гиперскейлеры, венчур'],
+     [365, 'Частные компании', 'OpenAI, Anthropic, ИИ-облака, ЦОД', 'на бирже нет'],
+     [720, 'Наши публичные компании', 'чипы, сети, электрика, энергия,', 'безопасность — здесь их выручка']].forEach(([x, h, a, b], i) => {
+      box(s, x, 20, 270, 104, i === 2 ? {fill: 'var(--surface)', stroke: 'var(--s3)', 'stroke-width': 2} : {});
+      txt(s, x + 16, 50, h, {'font-weight': 650, 'font-size': 14.5}); txt(s, x + 16, 76, a, {fill: 'var(--ink-2)'}); txt(s, x + 16, 96, b, {fill: i === 1 ? 'var(--ink-3)' : 'var(--ink-2)', 'font-style': i === 1 ? 'italic' : 'normal'}); });
+    arrow(s, 'M282,72 L362,72', 'ia1'); arrow(s, 'M637,72 L717,72', 'ia1');
+    txt(s, 322, 62, '$407 млрд', {'text-anchor': 'middle', 'font-size': 11.5, fill: 'var(--ink-2)'}); txt(s, 677, 62, 'заказы', {'text-anchor': 'middle', 'font-size': 11.5, fill: 'var(--ink-2)'});
+    add(0, s, '$407 млрд — венчур в ИИ за 1-е полугодие 2026 года (PitchBook).'); }
+
+  // 2. the chain is stretched in time: when each link gets the money
+  { const W = 1000, H = 236, L = 230, R = 20, Y0 = 2023, Y1 = 2035, sx = y => L + (y - Y0) / (Y1 - Y0) * (W - L - R);
+    const s = fig(W, H, 'Когда звенья цепочки получают деньги'); defs(s, 'ia2', 'var(--ink-3)');
+    [2023, 2025, 2027, 2029, 2031, 2033, 2035].forEach(y => { s.append(V('line', {x1: sx(y), x2: sx(y), y1: 10, y2: H - 30, stroke: 'var(--rule)'}));
+      txt(s, sx(y), H - 12, y, {'text-anchor': 'middle', 'font-size': 11, fill: 'var(--ink-3)'}); });
+    [['Чипы и память', 2023, '--s1', 'деньги сразу'], ['Сети и оптика', 2024, '--s2', ''], ['Электрика и стройка ЦОД', 2025, '--s3', 'трансформаторы ждут 1–4 года'],
+     ['Генерация: газ, атом', 2026, '--s4', 'турбины расписаны на годы'], ['Роботы и приводы', 2031, '--s5', 'Morgan Stanley: прибыль через 5–7 лет']].forEach(([n, y, c, note], i) => {
+      const y0 = 18 + i * 36;
+      txt(s, L - 12, y0 + 15, n, {'text-anchor': 'end'});
+      s.append(V('rect', {x: sx(y), y: y0 + 2, width: sx(Y1) - sx(y) - 8, height: 18, rx: 4, fill: `var(${c})`, 'fill-opacity': .85}));
+      if (note) txt(s, Math.max(sx(y), sx(2026.75)) + 8, y0 + 15, note, {'font-size': 11.5, fill: 'var(--surface)', 'font-weight': 600}); });
+    s.append(V('line', {x1: sx(2026.75), x2: sx(2026.75), y1: 8, y2: H - 30, stroke: 'var(--ink)', 'stroke-width': 1.5}));
+    txt(s, sx(2026.75) + 4, 12, 'сегодня', {'font-size': 11, fill: 'var(--ink-2)'});
+    add(1, s, 'Схема: с какого года звено цепочки начинает получать деньги волны ИИ. Иллюстрация, не прогноз.'); }
+
+  // 3. promises, not investments: the supplier finances its own buyer
+  { const s = fig(1000, 190, 'Nvidia финансирует спрос на годы вперёд'); defs(s, 'ia3', 'var(--s2)'); defs(s, 'ia3b', 'var(--s1)');
+    box(s, 20, 60, 200, 70, {fill: 'var(--surface)', stroke: 'var(--s1)', 'stroke-width': 2}); txt(s, 120, 92, 'Nvidia', {'text-anchor': 'middle', 'font-weight': 700, 'font-size': 15});
+    txt(s, 120, 112, '$99 млрд вложено', {'text-anchor': 'middle', 'font-size': 12, fill: 'var(--ink-2)'});
+    box(s, 440, 60, 240, 70, {fill: 'var(--surface)', stroke: 'var(--s2)', 'stroke-width': 2}); txt(s, 560, 92, 'OpenAI, CoreWeave, Nebius', {'text-anchor': 'middle', 'font-weight': 700, 'font-size': 14.5});
+    txt(s, 560, 112, 'покупатели вычислений', {'text-anchor': 'middle', 'font-size': 12, fill: 'var(--ink-2)'});
+    arrow(s, 'M220,72 C300,22 360,22 438,72', 'ia3', 'var(--s2)'); arrow(s, 'M440,118 C360,168 300,168 222,118', 'ia3b', 'var(--s1)');
+    txt(s, 330, 26, 'деньги: $30 млрд в OpenAI, по $2 млрд в CoreWeave и Nebius', {'text-anchor': 'middle', 'font-size': 12});
+    txt(s, 330, 180, 'заказы чипов и аренда мощности — обратно в выручку Nvidia', {'text-anchor': 'middle', 'font-size': 12});
+    txt(s, 712, 40, 'Законтрактовано на годы вперёд:', {'font-size': 12, fill: 'var(--ink-3)'});
+    [['$25 млрд', 'вложить ещё'], ['$36 млрд', 'выкупать мощность облаков'], ['до $105 млрд', 'гарантия по кампусу в Огайо'], ['больше $500 млрд', 'меморандумы о финансировании']].forEach(([b, a], i) => {
+      txt(s, 712, 66 + i * 30, b, {'font-weight': 650, 'font-size': 12.5}); txt(s, 712, 80 + i * 30, a, {'font-size': 11.5, fill: 'var(--ink-2)'}); });
+    add(2, s, 'Поставщик кредитует спрос, а покупатели возвращают деньги заказами на годы вперёд. Отчётность Nvidia на 26.07.2026; суммы разной природы, складывать их нельзя.'); }
+
+  // 5. the fork: IPOs and load forecasts
+  { const s = fig(1000, 210, 'Развилка: IPO лабораторий и прогнозы нагрузки'); defs(s, 'ia5', 'var(--ink-3)');
+    box(s, 10, 64, 250, 84, {fill: 'var(--surface)', stroke: 'var(--ink)', 'stroke-width': 1.5});
+    txt(s, 26, 94, 'IPO OpenAI и Anthropic', {'font-weight': 650}); txt(s, 26, 116, 'и прогнозы нагрузки ЦОД', {'font-weight': 650}); txt(s, 26, 136, '(PJM)', {'font-size': 12, fill: 'var(--ink-2)'});
+    const br = [[16, 'var(--status-good, #0ca30c)', '✓ Размещение не ниже $852 и $965 млрд, нагрузка по плану', 'поток денег продолжается → заказы инфраструктуры растут → цены держатся'],
+                [124, 'var(--status-critical, #d03b3b)', '✕ Размещение ниже оценок или нагрузку снижают', 'денег меньше → капзатраты режут → сильнее всего падают ']];
+    br.forEach(([y, c, h, t]) => { box(s, 340, y, 650, 72, {fill: 'var(--surface)', stroke: c, 'stroke-width': 2});
+      txt(s, 356, y + 28, h, {'font-weight': 650}); const te = V('text', {x: 356, y: y + 52, 'font-size': 12.5, fill: 'var(--ink-2)'}, t); if (y > 100) tkSvgLine(te, worst.map(w => [w, '']), ', '); s.append(te); });
+    arrow(s, 'M260,92 C300,92 300,52 338,52', 'ia5'); arrow(s, 'M260,120 C300,120 300,160 338,160', 'ia5');
+    add(3, s); }
+
+  // 6. close to the price: few, and mostly gold
+  { const W = 1000, H = 160, L = 30, R = 30, X0 = -.5, X1 = .6, sx = g => L + (g - X0) / (X1 - X0) * (W - L - R), Y = 92;
+    const pts = bg.filter(x => (x[1].fit === 'gold' && !x[1].stale && x[1].gap > -.5) || x[1].gap > 0).map(x => [x[0], x[1].gap, x[1].fit, x[1].k]);
+    const nv = CO.NVDA && usable(CO.NVDA.measured) ? CO.NVDA.measured.gap : null;
+    if (nv != null && !pts.some(p => p[0] === 'NVDA')) pts.push(['NVDA', nv, CO.NVDA.measured.fit, 'measured']);
+    const s = fig(W, H, 'Компании, у которых наша оценка ближе всего к цене');
+    s.append(V('line', {x1: L, x2: W - R, y1: Y, y2: Y, stroke: 'var(--rule)', 'stroke-width': 2}));
+    [-.5, -.25, 0, .25, .5].forEach(g => txt(s, sx(g), Y + 50, g === 0 ? 'цена' : pct(g), {'text-anchor': 'middle', 'font-size': 11, fill: 'var(--ink-3)'}));
+    s.append(V('line', {x1: sx(0), x2: sx(0), y1: 20, y2: Y + 16, stroke: 'var(--ink)', 'stroke-width': 1.5}));
+    pts.sort((a, b) => a[1] - b[1]).forEach(([t, g, fit, k], i) => {
+      const x = sx(Math.max(X0, Math.min(X1, g))), up = i % 2 === 0, gg = V('g');
+      gg.append(V('circle', {cx: x, cy: Y, r: 7, fill: fit === 'gold' ? 'var(--s4)' : 'var(--s1)', stroke: 'var(--surface)', 'stroke-width': 2}));
+      gg.append(V('line', {x1: x, x2: x, y1: up ? Y - 9 : Y + 9, y2: up ? Y - 30 : Y + 12, stroke: 'var(--ink-3)'}));
+      gg.append(tkSvgLine(V('text', {x, y: up ? Y - 36 : Y + 26, 'text-anchor': 'middle', 'font-size': 12.5, 'font-weight': 650, fill: 'var(--ink)'}), [[t, pct(g)]]));
+      hover(gg, [t + ' · ' + CO[t].name, (k === 'industry' ? 'Industry' : 'Measured') + ': ' + pct(g) + ' · ' + fit]); s.append(gg); });
+    add(4, s, 'Жёлтая точка — класс gold: история оценки совпадает с ценой лучше всего; синяя — другой класс.'); }
+})();
+
+// direct investment dynamics: OECD/Preqin by year, PitchBook for 2025 against the first half of 2026
+(function vcDynamics() {
+  const NS = 'http://www.w3.org/2000/svg';
+  const V = (tag, a, t) => { const e = document.createElementNS(NS, tag); for (const k in a) e.setAttribute(k, a[k]); if (t != null) e.textContent = t; return e; };
+  // A. global AI VC by year, OECD/Preqin (2022 and 2024 read from the OECD chart)
+  { const host = document.getElementById('fig-vc-years'), W = 520, H = 300, L = 46, R = 14, TOP = 34, B = 40;
+    const D = [[2021, 257.3, false], [2022, 160, true], [2023, 123.6, false], [2024, 150, true], [2025, 258.7, false]];
+    const bw = (W - L - R) / D.length, sy = v => TOP + (1 - v / 300) * (H - TOP - B);
+    const s = V('svg', {viewBox: `0 0 ${W} ${H}`, role: 'img', 'aria-label': 'Венчурные инвестиции в ИИ по годам, OECD'}); s.style.cssText = 'display:block;width:100%';
+    s.append(V('text', {x: L, y: 16, 'font-size': 12, fill: 'var(--ink-3)'}, 'Венчур в ИИ в мире, $ млрд в год (OECD/Preqin)'));
+    [0, 100, 200, 300].forEach(v => { s.append(V('line', {x1: L, x2: W - R, y1: sy(v), y2: sy(v), stroke: 'var(--rule)'}));
+      s.append(V('text', {x: L - 6, y: sy(v) + 4, 'text-anchor': 'end', 'font-size': 11, fill: 'var(--ink-3)'}, v)); });
+    D.forEach(([y, v, approx], i) => {
+      const x = L + i * bw + bw * .18, w = bw * .64, g = V('g');
+      g.append(V('rect', {x, y: sy(v), width: w, height: sy(0) - sy(v), rx: 4, fill: y === 2025 ? 'var(--s1)' : 'var(--promise)'}));
+      g.append(V('text', {x: x + w / 2, y: sy(v) - 6, 'text-anchor': 'middle', 'font-size': 12.5, 'font-weight': 650, fill: 'var(--ink)'}, (approx ? '≈' : '') + num(v, v % 1 ? 1 : 0)));
+      g.append(V('text', {x: x + w / 2, y: H - 16, 'text-anchor': 'middle', 'font-size': 12, fill: 'var(--ink-2)'}, y));
+      hover(g, [y + ': ' + (approx ? 'около ' : '') + '$' + num(v, v % 1 ? 1 : 0) + ' млрд', approx ? 'значение считано с графика OECD' : 'OECD/Preqin']); s.append(g); });
+    host.append(s); }
+  // B. the same provider for the last eighteen months: PitchBook
+  { const host = document.getElementById('fig-vc-h1'), W = 520, H = 300, L = 46, R = 14, TOP = 34, B = 40;
+    const sy = v => TOP + (1 - v / 450) * (H - TOP - B);
+    const s = V('svg', {viewBox: `0 0 ${W} ${H}`, role: 'img', 'aria-label': 'Венчур в ИИ: 2025 год против первого полугодия 2026, PitchBook'}); s.style.cssText = 'display:block;width:100%';
+    s.append(V('text', {x: L, y: 16, 'font-size': 12, fill: 'var(--ink-3)'}, 'Венчур в ИИ в мире, $ млрд (PitchBook)'));
+    [0, 100, 200, 300, 400].forEach(v => { s.append(V('line', {x1: L, x2: W - R, y1: sy(v), y2: sy(v), stroke: 'var(--rule)'}));
+      s.append(V('text', {x: L - 6, y: sy(v) + 4, 'text-anchor': 'end', 'font-size': 11, fill: 'var(--ink-3)'}, v)); });
+    const bars = [['2025, весь год', [[264, 'var(--promise)', 'весь 2025 год']]], ['I кв. 2026', [[255.5, 'var(--s1)', 'один квартал']]],
+                  ['I полугодие 2026', [[217, 'var(--s2)', 'OpenAI и Anthropic'], [190, 'var(--s1)', 'все остальные']]]];
+    const bw = (W - L - R) / bars.length;
+    bars.forEach(([lab, segs], i) => {
+      const x = L + i * bw + bw * .2, w = bw * .6; let acc = 0; const g = V('g');
+      segs.forEach(([v, c]) => { g.append(V('rect', {x, y: sy(acc + v), width: w, height: sy(acc) - sy(acc + v) - (acc ? 0 : 0), rx: 4, fill: c, stroke: 'var(--surface)', 'stroke-width': 2})); acc += v; });
+      const total = segs.reduce((a, b) => a + b[0], 0);
+      g.append(V('text', {x: x + w / 2, y: sy(total) - 6, 'text-anchor': 'middle', 'font-size': 12.5, 'font-weight': 650, fill: 'var(--ink)'}, '$' + num(total, total % 1 ? 1 : 0)));
+      g.append(V('text', {x: x + w / 2, y: H - 16, 'text-anchor': 'middle', 'font-size': 12, fill: 'var(--ink-2)'}, lab));
+      if (segs.length > 1) segs.forEach(([v, , n], k) => { const y0 = sy(segs.slice(0, k).reduce((a, b) => a + b[0], 0) + v / 2);
+        const lines = ['$' + v, ...(k === 0 ? ['OpenAI и', 'Anthropic'] : ['все', 'остальные'])];
+        lines.forEach((ln, q) => g.append(V('text', {x: x + w / 2, y: y0 + 4 + (q - 1) * 14, 'text-anchor': 'middle', 'font-size': q ? 11 : 12, fill: '#fff', 'font-weight': q ? 500 : 700}, ln))); });
+      hover(g, [lab + ': $' + num(total, total % 1 ? 1 : 0) + ' млрд', ...segs.map(([v, , n]) => n + ': $' + v + ' млрд')]); s.append(g); });
+    host.append(s); }
+})();
+
+// C. the same total, different money: AI VC by industry, 2021 against 2025 (OECD figure 11; ≈ read from the chart)
+(function vcMix() {
+  const host = document.getElementById('fig-vc-mix'); if (!host) return;
+  const NS = 'http://www.w3.org/2000/svg';
+  const V = (tag, a, t) => { const e = document.createElementNS(NS, tag); for (const k in a) e.setAttribute(k, a[k]); if (t != null) e.textContent = t; return e; };
+  const SEG = [['Инфраструктура и хостинг, вкл. разработчиков моделей', 'var(--s1)'], ['Беспилотники и транспорт', 'var(--s2)'],
+               ['Медицина и биотех', 'var(--s3)'], ['Бизнес-процессы и сервисы', 'var(--s4)'], ['Прочее', 'var(--ink-3)']];
+  const ROWS = [['2021', 257.3, [19, 38, 25, 22], true], ['2025', 258.7, [109.3, 7, 20, 20], false]];
+  const W = 1000, H = 150, L = 60, R = 20, bh = 34, sx = v => (W - L - R) * v / 290;
+  const s = V('svg', {viewBox: `0 0 ${W} ${H}`, role: 'img', 'aria-label': 'Структура венчура в ИИ по отраслям, 2021 и 2025'}); s.style.cssText = 'display:block;width:100%';
+  ROWS.forEach(([y, total, parts, approx], r) => {
+    const top = 16 + r * 62, segs = [...parts, total - parts.reduce((a, b) => a + b, 0)];
+    s.append(V('text', {x: L - 10, y: top + bh / 2 + 5, 'text-anchor': 'end', 'font-size': 14, 'font-weight': 700, fill: 'var(--ink)'}, y));
+    let x = L;
+    segs.forEach((v, k) => { const w = sx(v), g = V('g');
+      g.append(V('rect', {x, y: top, width: Math.max(1, w - 2), height: bh, rx: 4, fill: SEG[k][1], 'fill-opacity': k === 4 ? .35 : .9}));
+      if (w > 70) g.append(V('text', {x: x + 8, y: top + bh / 2 + 4, 'font-size': 12, 'font-weight': 650, fill: k === 4 ? 'var(--ink)' : '#fff'}, (approx || k > 0 ? '≈' : '') + '$' + Math.round(v)));
+      hover(g, [y + ' · ' + SEG[k][0], (approx || k > 0 ? 'около ' : '') + '$' + num(v, v % 1 ? 1 : 0) + ' млрд из $' + num(total, 1) + ' млрд']); s.append(g); x += w; });
+    s.append(V('text', {x: x + 8, y: top + bh / 2 + 4, 'font-size': 12.5, 'font-weight': 650, fill: 'var(--ink)'}, '$' + num(total, 1)));
+  });
+  host.append(s);
+  const lg = el('div', 'legend'); SEG.forEach(([n, c], k) => { const sp = el('span'); const i = el('i'); i.style.background = c; if (k === 4) i.style.opacity = .35; sp.append(i, n); lg.append(sp); });
+  host.append(lg);
+})();
+
+// tickers in running text open their card too
+['phases', 'ideas', 'signals', 'port', 'barbell'].forEach(id => linkify(document.getElementById(id)));
+
+// Organic revenue acceleration (owner, 03.10.2026): a ticker in a soft gold ring grew revenue in its
+// latest quarter faster than its own past - year-on-year growth >= 10%, at least 5 points above the
+// median of its past quarterly YoY rates and of its past annual (LTM) growth, not slower than the
+// quarter before, two-year growth above its usual pace too (not a rebound off a trough), and no
+// business acquisitions paid in the last two years worth 10% of revenue or more (not bought growth).
+// Data: the chain's card inputs (SEC quarterly revenue) and companyfacts, computed 03.10.2026.
+const ACCEL = {"NVDA": {"label": "Q2'27", "end": "2026-07-26", "yoy": 105.8, "prev": 85.2, "med_q": 77.9, "med_a": 10.6, "two_year": 220.3, "acq_share": 0.8}, "AVGO": {"label": "Q3'26", "end": "2026-08-02", "yoy": 85.5, "prev": 47.9, "med_q": 24.7, "med_a": 17.1, "two_year": 126.4, "acq_share": 0.0}, "MU": {"label": "Q3'26", "end": "2026-05-28", "yoy": 345.7, "prev": 196.3, "med_q": 38.3, "med_a": 17.6, "two_year": 508.7, "acq_share": 0.0}, "AMAT": {"label": "Q3'26", "end": "2026-07-26", "yoy": 24.8, "prev": 11.4, "med_q": 5.5, "med_a": 7.3, "two_year": 34.5, "acq_share": 0.9}, "LRCX": {"label": "Q4'26", "end": "2026-06-28", "yoy": 30.0, "prev": 23.8, "med_q": 19.7, "med_a": 20.3, "two_year": 73.6, "acq_share": 0.0}, "ANET": {"label": "Q2'26", "end": "2026-06-30", "yoy": 37.7, "prev": 35.1, "med_q": 28.3, "med_a": 27.9, "two_year": 79.6, "acq_share": 2.8}, "CSCO": {"label": "Q4'26", "end": "2026-07-25", "yoy": 17.6, "prev": 12.0, "med_q": 7.6, "med_a": 0.9, "two_year": 26.5, "acq_share": 1.5}, "FN": {"label": "Q4'26", "end": "2026-06-26", "yoy": 44.6, "prev": 39.3, "med_q": 17.9, "med_a": 8.9, "two_year": 74.7, "acq_share": 0.0}, "AAON": {"label": "Q2'26", "end": "2026-06-30", "yoy": 101.2, "prev": 54.3, "med_q": 22.9, "med_a": 8.5, "two_year": 100.0, "acq_share": 0.0}, "AGX": {"label": "Q2'27", "end": "2026-07-31", "yoy": 61.5, "prev": 50.2, "med_q": 22.8, "med_a": 21.2, "two_year": 69.1, "acq_share": 0.7}, "MOG-A": {"label": "Q3'26", "end": "2026-06-27", "yoy": 14.9, "prev": 12.5, "med_q": 8.6, "med_a": 5.4, "two_year": 23.4, "acq_share": 0.0}, "TXN": {"label": "Q2'26", "end": "2026-06-30", "yoy": 22.8, "prev": 18.6, "med_q": -3.4, "med_a": 1.6, "two_year": 42.9, "acq_share": 0.0}, "MPWR": {"label": "Q2'26", "end": "2026-06-30", "yoy": 47.6, "prev": 26.1, "med_q": 26.1, "med_a": 19.0, "two_year": 93.3, "acq_share": 0.0}, "TER": {"label": "Q2'26", "end": "2026-06-28", "yoy": 103.9, "prev": 87.0, "med_q": -2.9, "med_a": 6.3, "two_year": 82.1, "acq_share": 4.1}, "GOOG": {"label": "Q2'26", "end": "2026-06-30", "yoy": 24.2, "prev": 21.8, "med_q": 13.5, "med_a": 17.7, "two_year": 41.4, "acq_share": 0.0}};
+(function () {
+  const css = document.createElement('style');
+  css.textContent = ':root{--accel:#b0832c}' +
+    '@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--accel:#d1a650}}:root[data-theme="dark"]{--accel:#d1a650}' +
+    '.tk.accel{box-shadow:inset 0 0 0 1.5px var(--accel)}' +
+    '.accel-key{display:inline-block;width:22px;height:12px;border-radius:4px;box-shadow:inset 0 0 0 1.5px var(--accel);vertical-align:-1px;margin-right:6px}';
+  document.head.append(css);
+  const sign = v => (v > 0 ? '+' : '') + String(v).replace('.', ',') + '%';
+  document.querySelectorAll('a.tk').forEach(a => {
+    const t = (a.firstChild && a.firstChild.textContent || '').trim();
+    const r = ACCEL[t];
+    if (!r) return;
+    a.classList.add('accel');
+    a.title += ' · Выручка ускорилась без покупок: ' + sign(r.yoy) + ' г/г в ' + r.label + ' (кварталом раньше ' + sign(r.prev)
+      + '); обычно ' + sign(r.med_q) + ' по кварталам и ' + sign(r.med_a) + ' по годам';
+  });
+  const head = [...document.querySelectorAll('h2')].find(h => h.textContent.trim() === 'Куда текут деньги');
+  const note = head && head.nextElementSibling;
+  if (note) {
+    const p = document.createElement('p');
+    p.className = 'note';
+    p.innerHTML = '<span class="accel-key"></span>В золотистой рамке — компании, у которых выручка в последнем квартале выросла быстрее их обычного темпа: '
+      + 'рост год к году не меньше 10% и минимум на 5 п.п. выше медианы прошлых кварталов и лет, не замедлился к прошлому кварталу '
+      + 'и это не отскок со дна. Покупная выручка отсеяна: компании, которые за два года заплатили за приобретения 10% выручки и больше '
+      + '(Eaton, ITT, Quanta, Synopsys), не отмечены. Числа — при наведении.';
+    note.after(p);
+  }
+})();
+</script>
+</body>
+</html>
