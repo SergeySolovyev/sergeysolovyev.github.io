@@ -1109,42 +1109,6 @@ addEventListener('resize', () => { /* figures use viewBox; nothing to redraw */ 
 
 // tickers in running text open their card too
 ['phases', 'ideas', 'signals', 'port', 'barbell'].forEach(id => linkify(document.getElementById(id)));
-
-// Organic revenue acceleration (owner, 03.10.2026): a ticker in a soft gold ring grew revenue in its
-// latest quarter faster than its own past - year-on-year growth >= 10%, at least 5 points above the
-// median of its past quarterly YoY rates and of its past annual (LTM) growth, not slower than the
-// quarter before, two-year growth above its usual pace too (not a rebound off a trough), and no
-// business acquisitions paid in the last two years worth 10% of revenue or more (not bought growth).
-// Data: the chain's card inputs (SEC quarterly revenue) and companyfacts, computed 03.10.2026.
-const ACCEL = {"NVDA": {"label": "Q2'27", "end": "2026-07-26", "yoy": 105.8, "prev": 85.2, "med_q": 77.9, "med_a": 10.6, "two_year": 220.3, "acq_share": 0.8}, "AVGO": {"label": "Q3'26", "end": "2026-08-02", "yoy": 85.5, "prev": 47.9, "med_q": 24.7, "med_a": 17.1, "two_year": 126.4, "acq_share": 0.0}, "MU": {"label": "Q3'26", "end": "2026-05-28", "yoy": 345.7, "prev": 196.3, "med_q": 38.3, "med_a": 17.6, "two_year": 508.7, "acq_share": 0.0}, "AMAT": {"label": "Q3'26", "end": "2026-07-26", "yoy": 24.8, "prev": 11.4, "med_q": 5.5, "med_a": 7.3, "two_year": 34.5, "acq_share": 0.9}, "LRCX": {"label": "Q4'26", "end": "2026-06-28", "yoy": 30.0, "prev": 23.8, "med_q": 19.7, "med_a": 20.3, "two_year": 73.6, "acq_share": 0.0}, "ANET": {"label": "Q2'26", "end": "2026-06-30", "yoy": 37.7, "prev": 35.1, "med_q": 28.3, "med_a": 27.9, "two_year": 79.6, "acq_share": 2.8}, "CSCO": {"label": "Q4'26", "end": "2026-07-25", "yoy": 17.6, "prev": 12.0, "med_q": 7.6, "med_a": 0.9, "two_year": 26.5, "acq_share": 1.5}, "FN": {"label": "Q4'26", "end": "2026-06-26", "yoy": 44.6, "prev": 39.3, "med_q": 17.9, "med_a": 8.9, "two_year": 74.7, "acq_share": 0.0}, "AAON": {"label": "Q2'26", "end": "2026-06-30", "yoy": 101.2, "prev": 54.3, "med_q": 22.9, "med_a": 8.5, "two_year": 100.0, "acq_share": 0.0}, "AGX": {"label": "Q2'27", "end": "2026-07-31", "yoy": 61.5, "prev": 50.2, "med_q": 22.8, "med_a": 21.2, "two_year": 69.1, "acq_share": 0.7}, "MOG-A": {"label": "Q3'26", "end": "2026-06-27", "yoy": 14.9, "prev": 12.5, "med_q": 8.6, "med_a": 5.4, "two_year": 23.4, "acq_share": 0.0}, "TXN": {"label": "Q2'26", "end": "2026-06-30", "yoy": 22.8, "prev": 18.6, "med_q": -3.4, "med_a": 1.6, "two_year": 42.9, "acq_share": 0.0}, "MPWR": {"label": "Q2'26", "end": "2026-06-30", "yoy": 47.6, "prev": 26.1, "med_q": 26.1, "med_a": 19.0, "two_year": 93.3, "acq_share": 0.0}, "TER": {"label": "Q2'26", "end": "2026-06-28", "yoy": 103.9, "prev": 87.0, "med_q": -2.9, "med_a": 6.3, "two_year": 82.1, "acq_share": 4.1}, "GOOG": {"label": "Q2'26", "end": "2026-06-30", "yoy": 24.2, "prev": 21.8, "med_q": 13.5, "med_a": 17.7, "two_year": 41.4, "acq_share": 0.0}};
-(function () {
-  const css = document.createElement('style');
-  css.textContent = ':root{--accel:#b0832c}' +
-    '@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--accel:#d1a650}}:root[data-theme="dark"]{--accel:#d1a650}' +
-    '.tk.accel{box-shadow:inset 0 0 0 1.5px var(--accel)}' +
-    '.accel-key{display:inline-block;width:22px;height:12px;border-radius:4px;box-shadow:inset 0 0 0 1.5px var(--accel);vertical-align:-1px;margin-right:6px}';
-  document.head.append(css);
-  const sign = v => (v > 0 ? '+' : '') + String(v).replace('.', ',') + '%';
-  document.querySelectorAll('a.tk').forEach(a => {
-    const t = (a.firstChild && a.firstChild.textContent || '').trim();
-    const r = ACCEL[t];
-    if (!r) return;
-    a.classList.add('accel');
-    a.title += ' · Выручка ускорилась без покупок: ' + sign(r.yoy) + ' г/г в ' + r.label + ' (кварталом раньше ' + sign(r.prev)
-      + '); обычно ' + sign(r.med_q) + ' по кварталам и ' + sign(r.med_a) + ' по годам';
-  });
-  const head = [...document.querySelectorAll('h2')].find(h => h.textContent.trim() === 'Куда текут деньги');
-  const note = head && head.nextElementSibling;
-  if (note) {
-    const p = document.createElement('p');
-    p.className = 'note';
-    p.innerHTML = '<span class="accel-key"></span>В золотистой рамке — компании, у которых выручка в последнем квартале выросла быстрее их обычного темпа: '
-      + 'рост год к году не меньше 10% и минимум на 5 п.п. выше медианы прошлых кварталов и лет, не замедлился к прошлому кварталу '
-      + 'и это не отскок со дна. Покупная выручка отсеяна: компании, которые за два года заплатили за приобретения 10% выручки и больше '
-      + '(Eaton, ITT, Quanta, Synopsys), не отмечены. Числа — при наведении.';
-    note.after(p);
-  }
-})();
 </script>
 </body>
 </html>
